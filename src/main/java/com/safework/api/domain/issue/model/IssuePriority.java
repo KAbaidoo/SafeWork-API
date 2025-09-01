@@ -1,4 +1,10 @@
 package com.safework.api.domain.issue.model;
 
-public class IssuePriority {
+/**
+ * Represents the urgency of an issue.
+ */
+public enum IssuePriority {
+    LOW,
+    MEDIUM,
+    HIGH
 }

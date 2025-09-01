@@ -1,14 +1,20 @@
 package com.safework.api.domain.asset.model;
+import com.safework.api.domain.inspection.model.Inspection;
+import com.safework.api.domain.issue.model.Issue;
 import com.safework.api.domain.organization.model.Organization;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Represents a physical asset that can be inspected and managed.
  * This is the core entity for tracking equipment like forklifts, machinery, etc.
  */
+
+@Data
 @Entity
 @Table(name = "assets", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"organizationId", "qrCodeId"})
@@ -46,9 +52,9 @@ public class Asset {
 
     // --- Relationships ---
 
-//    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Inspection> inspections;
+    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Inspection> inspections;
 
-//    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Issue> issues;
+    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Issue> issues;
 }

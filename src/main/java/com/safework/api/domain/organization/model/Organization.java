@@ -3,10 +3,12 @@ package com.safework.api.domain.organization.model;
 import com.safework.api.domain.asset.model.Asset;
 import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "organizations")
 public class Organization {
