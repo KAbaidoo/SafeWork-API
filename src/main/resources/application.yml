@@ -1,0 +1,48 @@
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api # Sets the base path for the entire application (e.g., /api/v1/assets)
+
+# Spring Application
+spring:
+  application:
+    name: safework-api
+
+  # --- DATABASE CONFIGURATION ---
+  datasource:
+    url: jdbc:mariadb://localhost:3306/safeworkdb
+    username: safework_user # Best practice: Use a dedicated user, not 'root'
+    password: ${DB_PASSWORD} # CRITICAL: Never hardcode passwords. Use environment variables.
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  # --- JPA & HIBERNATE CONFIGURATION ---
+  jpa:
+    show-sql: true # Good for development, should be false in production
+    hibernate:
+      # CRITICAL: 'validate' is the safest option for production. It checks if the schema matches the entities.
+      # Use 'update' for local development only. Never use 'create' or 'create-drop' on a database with real data.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        # Improves compatibility and SQL generation for MariaDB
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+  # --- DATABASE MIGRATION (FLYWAY) ---
+  flyway:
+    enabled: true # Enables Flyway to manage database schema changes
+    baseline-on-migrate: true # Creates a baseline for an existing database
+
+  # --- JSON CONFIGURATION (JACKSON) ---
+  jackson:
+    serialization:
+      # Ensures dates are in a standard ISO format (e.g., "2025-09-03T09:51:10Z")
+      WRITE_DATES_AS_TIMESTAMPS: false
+    default-property-inclusion: NON_NULL # Prevents sending fields with null values in JSON responses
+
+# --- CUSTOM APPLICATION PROPERTIES ---
+safework:
+  jwt:
+    # CRITICAL: Use a long, complex, and secret string from an environment variable
+    secret: ${JWT_SECRET}
+    expiration-ms: 86400000 # 24 hours in milliseconds

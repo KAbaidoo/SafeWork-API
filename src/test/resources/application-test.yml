@@ -1,0 +1,29 @@
+# ===================================================================
+# TEST-SPECIFIC APPLICATION CONFIGURATION (YAML Format)
+# ===================================================================
+
+# --- Use a fast, in-memory H2 database for tests ---
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    # 'create-drop' is the BEST choice for testing to ensure a clean slate.
+    hibernate:
+      ddl-auto: create-drop
+    # Show SQL in the console for debugging tests.
+    show-sql: true
+
+  # --- Disable Flyway during tests ---
+  flyway:
+    enabled: false
+
+# --- Reduce Log Noise ---
+logging:
+  level:
+    root: WARN
+    com.safework.api: INFO
