@@ -1,13 +1,25 @@
 package com.safework.api.domain.asset.model;
+import com.safework.api.domain.department.model.Department;
 import com.safework.api.domain.inspection.model.Inspection;
 import com.safework.api.domain.issue.model.Issue;
+import com.safework.api.domain.location.model.Location;
+import com.safework.api.domain.maintenance.model.MaintenanceLog;
+import com.safework.api.domain.maintenance.model.MaintenanceSchedule;
 import com.safework.api.domain.organization.model.Organization;
+import com.safework.api.domain.supplier.model.Supplier;
+import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a physical asset that can be inspected and managed.
@@ -20,28 +32,84 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"organizationId", "qrCodeId"})
 })
 public class Asset {
-
+    // --- Core Identification ---
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String assetTag; // Company-wide unique identifier
+
+    @Column(nullable = false)
+    private String name; // Human-readable name
+
+    @Column(name = "qr_code_id", unique = true)
+    private String qrCodeId; // Scannable ID for SafeWork mobile app [cite: 281]
+
+    // --- Categorization & Ownership ---
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "asset_type_id", nullable = false)
+    private AssetType assetType;
 
-    @Column(nullable = false, name = "qr_code_id")
-    private String qrCodeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
+    // --- Assignment & Location ---
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_to_user_id")
+    private User assignedTo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    // --- Status & Compliance ---
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AssetStatus status;
+    private AssetStatus status; // Operational status [cite: 281]
 
-    @Version // Key field for optimistic locking and offline sync conflict detection
-    private int version;
+    @Enumerated(EnumType.STRING)
+    private ComplianceStatus complianceStatus;
 
+    // --- Financial Information ---
+    @Column
+    private LocalDate purchaseDate;
+
+    @Column
+    private BigDecimal purchaseCost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
+    // --- Maintenance & Lifecycle ---
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "maintenance_schedule_id")
+    private MaintenanceSchedule maintenanceSchedule;
+
+    @Column
+    private LocalDate nextServiceDate;
+
+    @Column
+    private LocalDate warrantyExpiryDate;
+
+    @Column
+    private LocalDate disposalDate;
+
+    // --- Custom & Sync Fields ---
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> customAttributes;
+
+    @Version
+    private int version; // For offline synchronization [cite: 281]
+
+    // --- Auditing ---
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -50,11 +118,13 @@ public class Asset {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // --- Relationships ---
-
+    // --- Historical Relationships ---
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Inspection> inspections;
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Issue> issues;
+
+    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MaintenanceLog> maintenanceLogs;
 }
