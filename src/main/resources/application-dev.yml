@@ -1,0 +1,34 @@
+# Settings for the 'dev' profile, overrides application.yml
+
+server:
+  port: 8081 # Running on a different port to avoid conflicts with other apps
+
+# --- In-Memory H2 Database for easy local development ---
+spring:
+  datasource:
+    url: jdbc:h2:mem:safeworkdb_dev;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+
+  # Use H2 dialect
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      # 'update' is convenient for dev, as it adds new tables/columns automatically.
+      # Avoids needing a new migration for every small entity change during development.
+      ddl-auto: update
+    properties:
+      hibernate:
+        # Makes the logged SQL more readable
+        format_sql: true
+
+  # Disable Flyway for the in-memory H2 database, as the schema is managed by ddl-auto=update
+  flyway:
+    enabled: false
+
+# For easier debugging in the console
+logging:
+  level:
+    # Shows Hibernate's parameter binding in logs
+    org.hibernate.type.descriptor.sql: trace
