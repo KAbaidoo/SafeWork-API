@@ -4,6 +4,7 @@ import com.safework.api.domain.asset.model.Asset;
 import com.safework.api.domain.checklist.model.Checklist;
 import com.safework.api.domain.issue.model.Issue;
 import com.safework.api.domain.user.model.User;
+import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,7 +45,7 @@ public class Inspection {
     private InspectionStatus status;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb", nullable = false, name = "report_data")
+    @Column(columnDefinition = "json", nullable = false, name = "report_data")
     private Map<String, Object> reportData;
 
     @CreationTimestamp
@@ -55,4 +56,19 @@ public class Inspection {
 
     @OneToMany(mappedBy = "inspection", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Issue> issues;
+    
+    // --- Lifecycle Hooks ---
+    
+    @PrePersist
+    @PreUpdate
+    private void validateJsonData() {
+        JsonValidator.validateJson(this.reportData, "reportData");
+    }
+    
+    // --- Setters with validation ---
+    
+    public void setReportData(Map<String, Object> reportData) {
+        JsonValidator.validateJson(reportData, "reportData");
+        this.reportData = reportData;
+    }
 }

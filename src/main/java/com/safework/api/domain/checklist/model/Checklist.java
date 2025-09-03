@@ -2,6 +2,7 @@ package com.safework.api.domain.checklist.model;
 
 import com.safework.api.domain.inspection.model.Inspection;
 import com.safework.api.domain.organization.model.Organization;
+import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,7 +42,7 @@ public class Checklist {
     private ChecklistStatus status;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb", nullable = false, name = "template_data")
+    @Column(columnDefinition = "json", nullable = false, name = "template_data")
     private Map<String, Object> templateData;
 
     @Version
@@ -59,4 +60,19 @@ public class Checklist {
 
     @OneToMany(mappedBy = "checklist", fetch = FetchType.LAZY)
     private List<Inspection> inspections;
+    
+    // --- Lifecycle Hooks ---
+    
+    @PrePersist
+    @PreUpdate
+    private void validateJsonData() {
+        JsonValidator.validateJson(this.templateData, "templateData");
+    }
+    
+    // --- Setters with validation ---
+    
+    public void setTemplateData(Map<String, Object> templateData) {
+        JsonValidator.validateJson(templateData, "templateData");
+        this.templateData = templateData;
+    }
 }

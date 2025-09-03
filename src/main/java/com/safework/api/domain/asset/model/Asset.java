@@ -8,6 +8,7 @@ import com.safework.api.domain.maintenance.model.MaintenanceSchedule;
 import com.safework.api.domain.organization.model.Organization;
 import com.safework.api.domain.supplier.model.Supplier;
 import com.safework.api.domain.user.model.User;
+import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -103,7 +104,7 @@ public class Asset {
 
     // --- Custom & Sync Fields ---
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "json")
     private Map<String, Object> customAttributes;
 
     @Version
@@ -127,4 +128,19 @@ public class Asset {
 
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MaintenanceLog> maintenanceLogs;
+    
+    // --- Lifecycle Hooks ---
+    
+    @PrePersist
+    @PreUpdate
+    private void validateJsonData() {
+        JsonValidator.validateJson(this.customAttributes, "customAttributes");
+    }
+    
+    // --- Setters with validation ---
+    
+    public void setCustomAttributes(Map<String, Object> customAttributes) {
+        JsonValidator.validateJson(customAttributes, "customAttributes");
+        this.customAttributes = customAttributes;
+    }
 }
