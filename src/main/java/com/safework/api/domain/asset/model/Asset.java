@@ -108,7 +108,7 @@ public class Asset {
     private Map<String, Object> customAttributes;
 
     @Version
-    private int version; // For offline synchronization [cite: 281]
+    private int version; // For offline synchronization
 
     // --- Auditing ---
     @CreationTimestamp
