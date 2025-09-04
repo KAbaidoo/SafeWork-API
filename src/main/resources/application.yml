@@ -9,6 +9,9 @@ spring:
   application:
     name: safework-api
 
+  profiles:
+    active: dev
+
   # --- DATABASE CONFIGURATION ---
   datasource:
     url: jdbc:mariadb://localhost:3306/safeworkdb
@@ -18,7 +21,7 @@ spring:
 
   # --- JPA & HIBERNATE CONFIGURATION ---
   jpa:
-    show-sql: true # Good for development, should be false in production
+    show-sql: true # Good for development should be false in production
     hibernate:
       # CRITICAL: 'validate' is the safest option for production. It checks if the schema matches the entities.
       # Use 'update' for local development only. Never use 'create' or 'create-drop' on a database with real data.

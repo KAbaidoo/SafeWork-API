@@ -1,33 +1,33 @@
 # Settings for the 'dev' profile, overrides application.yml
 
 server:
-  port: 8081 # Running on a different port to avoid conflicts with other apps
+  port: 8081 # Running on a different port to avoid conflicts
 
-# --- In-Memory H2 Database for easy local development ---
 spring:
+  # --- MariaDB Database Configuration for Development ---
   datasource:
-    url: jdbc:h2:mem:safeworkdb_dev;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: password
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://localhost:3306/safeworkdb_dev?createDatabaseIfNotExist=true
+    username: safework_dev_user # Use a dedicated user for development
+    password: ${DB_DEV_PASSWORD} # Use an environment variable for the password
+    driver-class-name: org.mariadb.jdbc.Driver
 
-  # Use H2 dialect
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
     hibernate:
-      # 'update' is convenient for dev, as it adds new tables/columns automatically.
-      # Avoids needing a new migration for every small entity change during development.
+      # 'update' is a good choice for development with a persistent DB.
+      # It adds new tables/columns automatically, saving time.
+      # Flyway will handle the initial schema creation.
       ddl-auto: update
     properties:
       hibernate:
-        # Makes the logged SQL more readable
-        format_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true # Makes the logged SQL more readable
 
-  # Disable Flyway for the in-memory H2 database, as the schema is managed by ddl-auto=update
+  # --- Enable Flyway for the persistent database ---
   flyway:
-    enabled: false
+    enabled: true # Flyway must be enabled to manage the schema state
 
-# For easier debugging in the console
+# --- Enhanced Logging for Debugging ---
 logging:
   level:
     # Shows Hibernate's parameter binding in logs
