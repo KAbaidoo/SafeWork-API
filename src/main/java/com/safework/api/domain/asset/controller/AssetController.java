@@ -5,6 +5,7 @@ import com.safework.api.domain.asset.dto.CreateAssetRequest;
 import com.safework.api.domain.asset.dto.UpdateAssetRequest;
 import com.safework.api.domain.asset.service.AssetService;
 import com.safework.api.domain.user.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/assets") // All endpoints are versioned
 public class AssetController {
 
     private final AssetService assetService;
-
-    public AssetController(AssetService assetService) {
-        this.assetService = assetService;
-    }
 
     /**
      * Creates a new asset. Requires ADMIN role.

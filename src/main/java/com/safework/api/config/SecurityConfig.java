@@ -1,10 +1,8 @@
 package com.safework.api.config;
 
 
-import com.safework.api.domain.user.model.UserRole;
 import com.safework.api.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

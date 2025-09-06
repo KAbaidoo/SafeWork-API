@@ -18,20 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = repository.findByEmail(username);
+        Optional<User> userOptional = repository.findByEmail(username);
 
-        org.springframework.security.core.userdetails.User.UserBuilder userBuilder = null;
-
-        if (user.isPresent()){
-            User currentUser = user.get();
-
-            userBuilder = org.springframework.security.core.userdetails.User.withUsername(username);
-            userBuilder.password(currentUser.getPassword());
-            userBuilder.roles(String.valueOf(currentUser.getRole()));
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return new CustomUserPrincipal(user);
         } else {
             throw new UsernameNotFoundException("User not found!");
         }
-
-        return userBuilder.build();
     }
 }
