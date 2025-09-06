@@ -6,7 +6,8 @@
       "Bash(git push:*)",
       "Bash(afplay:*)",
       "WebSearch",
-      "Bash(./mvnw:*)"
+      "Bash(./mvnw:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,4 +1,4 @@
-package com.safework.api.domain.asset;
+package com.safework.api.domain.asset.repository;
 
 import com.safework.api.domain.asset.model.Asset;
 import org.springframework.data.domain.Page;
