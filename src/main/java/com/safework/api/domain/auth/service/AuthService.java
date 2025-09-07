@@ -4,7 +4,7 @@ import com.safework.api.domain.auth.dto.LoginRequest;
 import com.safework.api.domain.auth.dto.LoginResponse;
 import com.safework.api.domain.user.model.User;
 import com.safework.api.domain.user.repository.UserRepository;
-import com.safework.api.security.JwtService;
+import com.safework.api.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
     public LoginResponse authenticate(LoginRequest loginRequest) {
@@ -31,7 +31,7 @@ public class AuthService {
             );
 
             // Generate JWT token
-            String token = jwtService.getToken(loginRequest.email());
+            String token = jwtTokenProvider.getToken(loginRequest.email());
 
             // Get user details
             User user = userRepository.findByEmail(loginRequest.email())

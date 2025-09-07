@@ -1,6 +1,8 @@
 package com.safework.api.config;
 
 
+import com.safework.api.security.AuthEntryPoint;
+import com.safework.api.security.JwtAuthenticationFilter;
 import com.safework.api.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +33,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthenticationFilter authenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthEntryPoint exceptionHandler;
 
     @Bean
@@ -67,7 +69,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(exceptionHandler)
                 )
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
