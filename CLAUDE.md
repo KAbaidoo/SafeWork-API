@@ -81,18 +81,34 @@ domain/{domain-name}/
 ```
 
 ### Lombok Conventions
-**Entities**: Use `@Data` for all JPA entities (generates getters, setters, toString, equals, hashCode)
+
+**Entities**: Use selective Lombok annotations instead of `@Data` to follow JPA best practices
 ```java
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "assetType", "department"}) // Exclude lazy associations
 @Entity
 @Table(name = "assets")
 public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)           // Prevent accidental ID modification
+    @EqualsAndHashCode.Include          // Only use ID for equality/hashCode
     private Long id;
-    // ... fields
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id")
+    private Organization organization;   // Excluded from toString to prevent lazy loading issues
+    
+    // ... other fields
 }
 ```
+
+**Why not @Data for entities?**
+- `@Data` includes ALL fields in `equals/hashCode`, causing issues when entities are modified in HashSets/HashMaps
+- `@Data` includes lazy associations in `toString()`, causing `LazyInitializationException` when accessed outside Hibernate sessions
+- `@Data` generates setters for all fields, including IDs and audit fields that shouldn't be modified
 
 **Controllers/Services**: Use `@RequiredArgsConstructor` for dependency injection
 ```java
@@ -104,12 +120,16 @@ public class AssetController {
 }
 ```
 
-**Audit Fields**: Use Hibernate annotations on entities
+**Audit Fields**: Use Hibernate annotations with protected setters
 ```java
 @CreationTimestamp
+@Column(nullable = false, updatable = false)
+@Setter(AccessLevel.NONE)           // Prevent manual modification
 private LocalDateTime createdAt;
 
-@UpdateTimestamp  
+@UpdateTimestamp
+@Column(nullable = false)
+@Setter(AccessLevel.NONE)           // Prevent manual modification
 private LocalDateTime updatedAt;
 ```
 
@@ -180,11 +200,13 @@ public ResponseEntity<AssetDto> createAsset(@Valid @RequestBody CreateAssetReque
 - Use `@RequiredArgsConstructor` for dependency injection
 
 ### Entity Conventions
-- `@Data` annotation for all entities (generates boilerplate code)
+- **Selective Lombok annotations**: Use `@Getter`, `@Setter`, `@EqualsAndHashCode(onlyExplicitlyIncluded = true)`, `@ToString(exclude = {...})` instead of `@Data`
+- **ID Protection**: Use `@Setter(AccessLevel.NONE)` and `@EqualsAndHashCode.Include` on ID fields
+- **Audit Field Protection**: Use `@Setter(AccessLevel.NONE)` on `@CreationTimestamp` and `@UpdateTimestamp` fields
 - `@GeneratedValue(strategy = GenerationType.IDENTITY)` for auto-incrementing IDs
 - `@Enumerated(EnumType.STRING)` for enum fields (stores as strings, not ordinals)
-- `@CreationTimestamp` and `@UpdateTimestamp` for audit fields
 - Use `@ManyToOne(fetch = FetchType.LAZY)` with `@JoinColumn` for foreign keys
+- **toString Safety**: Exclude lazy-loaded associations to prevent `LazyInitializationException`
 - Custom attributes stored as JSON via `@JdbcTypeCode(SqlTypes.JSON)`
 
 ## Testing Strategy
