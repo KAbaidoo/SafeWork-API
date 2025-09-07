@@ -6,7 +6,8 @@ import com.safework.api.domain.issue.model.Issue;
 import com.safework.api.domain.user.model.User;
 import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -19,13 +20,18 @@ import java.util.Map;
  * Represents a completed inspection report for a specific asset.
  * This is an immutable record of a check performed at a point in time.
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"asset", "user", "checklist", "issues"})
 @Entity
 @Table(name = "inspections")
 public class Inspection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,6 +56,7 @@ public class Inspection {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime completedAt;
 
     // --- Relationships ---

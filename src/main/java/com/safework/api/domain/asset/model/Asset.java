@@ -10,7 +10,8 @@ import com.safework.api.domain.supplier.model.Supplier;
 import com.safework.api.domain.user.model.User;
 import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,7 +28,10 @@ import java.util.Map;
  * This is the core entity for tracking equipment like forklifts, machinery, etc.
  */
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "assetType", "department", "assignedTo", "location", "supplier", "maintenanceSchedule", "inspections", "issues", "maintenanceLogs"})
 @Entity
 @Table(name = "assets", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"organizationId", "qrCodeId"})
@@ -36,6 +40,8 @@ public class Asset {
     // --- Core Identification ---
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -113,10 +119,12 @@ public class Asset {
     // --- Auditing ---
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
 
     // --- Historical Relationships ---

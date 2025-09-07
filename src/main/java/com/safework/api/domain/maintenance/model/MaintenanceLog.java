@@ -3,16 +3,22 @@ package com.safework.api.domain.maintenance.model;
 import com.safework.api.domain.asset.model.Asset;
 import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"asset", "technician"})
 @Entity
 @Table(name = "maintenance_logs")
 public class MaintenanceLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,4 +36,5 @@ public class MaintenanceLog {
     private String notes;
 
     private BigDecimal cost;
+    
 }

@@ -2,15 +2,21 @@ package com.safework.api.domain.asset.model;
 
 import com.safework.api.domain.organization.model.Organization;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "assets"})
 @Entity
 @Table(name = "asset_types")
 public class AssetType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,4 +28,5 @@ public class AssetType {
 
     @OneToMany(mappedBy = "assetType", fetch = FetchType.LAZY)
     private List<Asset> assets;
+    
 }

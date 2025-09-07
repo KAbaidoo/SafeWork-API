@@ -2,14 +2,20 @@ package com.safework.api.domain.maintenance.model;
 
 import com.safework.api.domain.organization.model.Organization;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization"})
 @Entity
 @Table(name = "maintenance_schedules")
 public class MaintenanceSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,4 +31,5 @@ public class MaintenanceSchedule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FrequencyUnit frequencyUnit; // e.g., MONTH
+    
 }

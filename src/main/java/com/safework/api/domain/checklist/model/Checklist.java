@@ -4,7 +4,8 @@ import com.safework.api.domain.inspection.model.Inspection;
 import com.safework.api.domain.organization.model.Organization;
 import com.safework.api.domain.util.JsonValidator;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,13 +19,18 @@ import java.util.Map;
  * Represents a reusable inspection template or checklist.
  * Administrators design these templates, which are then used to conduct inspections.
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "inspections"})
 @Entity
 @Table(name = "checklists")
 public class Checklist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,10 +56,12 @@ public class Checklist {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
 
     // --- Relationships ---

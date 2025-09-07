@@ -3,18 +3,24 @@ package com.safework.api.domain.organization.model;
 import com.safework.api.domain.asset.model.Asset;
 import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"users", "assets"})
 @Entity
 @Table(name = "organizations")
 public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -22,6 +28,7 @@ public class Organization {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     // --- Relationships ---
@@ -32,4 +39,5 @@ public class Organization {
     // Optional: direct link to assets, though often accessed via users.
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asset> assets;
+    
 }

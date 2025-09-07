@@ -5,7 +5,8 @@ import com.safework.api.domain.inspection.model.Inspection;
 import com.safework.api.domain.organization.model.Organization;
 import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,13 +15,18 @@ import java.time.LocalDateTime;
 /**
  * Represents a reported issue, defect, or corrective action item.
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "asset", "inspection", "reporter", "assignee"})
 @Entity
 @Table(name = "issues")
 public class Issue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,9 +65,12 @@ public class Issue {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
+    
 }

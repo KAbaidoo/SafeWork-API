@@ -2,18 +2,24 @@ package com.safework.api.domain.user.model;
 import com.safework.api.domain.department.model.Department;
 import com.safework.api.domain.organization.model.Organization;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization", "department"})
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,9 +45,11 @@ public class User {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedAt;
 }

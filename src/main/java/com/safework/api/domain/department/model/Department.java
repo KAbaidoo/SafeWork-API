@@ -2,14 +2,20 @@ package com.safework.api.domain.department.model;
 
 import com.safework.api.domain.organization.model.Organization;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"organization"})
 @Entity
 @Table(name = "departments")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -18,4 +24,5 @@ public class Department {
 
     @Column(nullable = false)
     private String name; // e.g., "IT", "Finance", "Operations"
+    
 }
