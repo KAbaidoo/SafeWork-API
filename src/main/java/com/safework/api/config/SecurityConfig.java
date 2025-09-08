@@ -58,7 +58,7 @@ public class SecurityConfig {
                         httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource())
                 )
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                        authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority("ADMIN")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/supervisor/**").hasAnyRole("SUPERVISOR", "ADMIN")
                                 .requestMatchers("/inspector/**").hasAnyRole("INSPECTOR", "SUPERVISOR", "ADMIN")
