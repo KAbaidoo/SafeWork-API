@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            return new UserPrincipal(user);
+            return new PrincipalUser(user);
         } else {
             throw new UsernameNotFoundException("User not found!");
         }

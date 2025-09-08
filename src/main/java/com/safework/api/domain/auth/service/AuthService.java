@@ -31,7 +31,7 @@ public class AuthService {
             );
 
             // Generate JWT token
-            String token = jwtTokenProvider.getToken(loginRequest.email());
+            String token = jwtTokenProvider.generateToken(authentication);
 
             // Get user details
             User user = userRepository.findByEmail(loginRequest.email())

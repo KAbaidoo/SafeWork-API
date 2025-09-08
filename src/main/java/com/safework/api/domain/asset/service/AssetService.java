@@ -59,6 +59,19 @@ public class AssetService {
         return assetMapper.toDto(asset);
     }
 
+    @Transactional(readOnly = true)
+    public AssetDto findAssetByQrCode(String qrCodeId, User currentUser) {
+        Asset asset = assetRepository.findByQrCodeId(qrCodeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Asset not found with QR code: " + qrCodeId));
+        
+        // --- Multi-Tenancy Security Check ---
+        if (!asset.getOrganization().getId().equals(currentUser.getOrganization().getId())) {
+            throw new AccessDeniedException("You do not have permission to access this asset.");
+        }
+        
+        return assetMapper.toDto(asset);
+    }
+
     public AssetDto updateAsset(Long id, UpdateAssetRequest request, User currentUser) {
         Asset assetToUpdate = getAssetForUser(id, currentUser);
 

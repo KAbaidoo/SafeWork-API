@@ -1,66 +1,81 @@
 package com.safework.api.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    
-    @Value("${safework.jwt.expiration-ms:86400000}")
-    private long expirationTime;
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+
     @Value("${safework.jwt.secret}")
     private String jwtSecret;
-    
-    private static final String PREFIX = "Bearer ";
 
+    @Value("${safework.jwt.expiration-ms}")
+    private long jwtExpirationInMs;
 
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-    
-    // Generate JWT token
-    public String getToken(String username) {
+    /**
+     * Generates a JWT for a successfully authenticated user.
+     */
+    public String generateToken(Authentication authentication) {
+        PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .subject(principalUser.getUsername()) // Use email as the subject
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey())
                 .compact();
     }
 
-    // Get a token from request Authorization header,
-    // parse a token and get username
-    public String getAuthUser(HttpServletRequest request) {
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+    /**
+     * Extracts the user's email from a JWT.
+     */
+    public String getEmailFromJWT(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
 
-        if (token != null && token.startsWith(PREFIX)) {
-            try {
-                String user = Jwts.parserBuilder()
-                        .setSigningKey(getSigningKey())
-                        .build()
-                        .parseClaimsJws(token.substring(PREFIX.length()))
-                        .getBody()
-                        .getSubject();
+        return claims.getSubject();
+    }
 
-                if (user != null)
-                    return user;
-            } catch (Exception e) {
-                // Invalid token
-                return null;
-            }
+    /**
+     * Validates the integrity and expiration of a JWT.
+     */
+    public boolean validateToken(String authToken) {
+        try {
+            Jwts.parser().verifyWith(getSigningKey()).build().parse(authToken);
+            return true;
+        } catch (MalformedJwtException ex) {
+            logger.error("Invalid JWT token");
+        } catch (ExpiredJwtException ex) {
+            logger.error("Expired JWT token");
+        } catch (UnsupportedJwtException ex) {
+            logger.error("Unsupported JWT token");
+        } catch (IllegalArgumentException ex) {
+            logger.error("JWT claims string is empty.");
         }
+        return false;
+    }
 
-        return null;
+    /**
+     * Creates a secure signing key from the Base64 encoded secret.
+     */
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(this.jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
