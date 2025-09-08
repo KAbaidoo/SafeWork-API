@@ -23,7 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import com.safework.api.security.UserPrincipal;
+import com.safework.api.security.PrincipalUser;
 
 import java.util.List;
 
@@ -31,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -60,6 +61,14 @@ class AssetControllerTest {
     void setUp() {
         organization = new Organization();
         organization.setName("Test Organization");
+        // Set organization ID for tests
+        try {
+            java.lang.reflect.Field idField = organization.getClass().getDeclaredField("id");
+            idField.setAccessible(true);
+            idField.set(organization, 1L);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set organization ID", e);
+        }
 
         mockUser = new User();
         mockUser.setEmail("admin@test.com");
@@ -92,7 +101,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(post("/v1/assets")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createRequest)))
             .andExpect(status().isCreated())
@@ -112,7 +121,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(post("/v1/assets")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createRequest)))
             .andExpect(status().isNotFound());
@@ -126,7 +135,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .param("page", "0")
                 .param("size", "10"))
             .andExpect(status().isOk())
@@ -146,7 +155,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(1))
@@ -162,7 +171,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isNotFound());
     }
 
@@ -174,7 +183,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isForbidden());
     }
 
@@ -185,7 +194,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets/qr/QR-001")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(1))
@@ -200,7 +209,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(get("/v1/assets/qr/INVALID-QR")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isNotFound());
     }
 
@@ -213,7 +222,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(put("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isOk())
@@ -232,7 +241,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(put("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isConflict());
@@ -246,17 +255,22 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(put("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser)))
+                .with(user(new PrincipalUser(mockUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isNotFound());
     }
 
+
+
     @Test
     void deleteAsset_ShouldReturnNoContent_WhenAssetExists() throws Exception {
+        // Given
+        doNothing().when(assetService).deleteAsset(eq(1L), any(User.class));
+
         // When/Then
         mockMvc.perform(delete("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isNoContent());
     }
 
@@ -268,7 +282,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(delete("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isNotFound());
     }
 
@@ -280,7 +294,7 @@ class AssetControllerTest {
 
         // When/Then
         mockMvc.perform(delete("/v1/assets/1")
-                .with(user(new UserPrincipal(mockUser))))
+                .with(user(new PrincipalUser(mockUser))))
             .andExpect(status().isForbidden());
     }
 }
