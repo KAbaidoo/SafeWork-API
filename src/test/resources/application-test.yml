@@ -30,3 +30,9 @@ logging:
   level:
     root: WARN
     com.safework.api: INFO
+
+# --- JWT Configuration for Tests ---
+safework:
+  jwt:
+    secret: test-jwt-secret-key-that-is-at-least-256-bits-long-for-hs256-algorithm
+    expiration-ms: 86400000

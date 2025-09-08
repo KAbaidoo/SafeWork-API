@@ -13,7 +13,7 @@ import com.safework.api.domain.organization.repository.OrganizationRepository;
 import com.safework.api.domain.user.model.User;
 import com.safework.api.domain.user.model.UserRole;
 import com.safework.api.domain.user.repository.UserRepository;
-import com.safework.api.security.UserPrincipal;
+import com.safework.api.security.PrincipalUser;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -131,7 +131,7 @@ class AssetIntegrationTest {
 
         // When
         mockMvc.perform(post("/v1/assets")
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
@@ -153,7 +153,7 @@ class AssetIntegrationTest {
     void getAssetsByOrganization_ShouldReturnAssetsFromDatabase() throws Exception {
         // When/Then
         mockMvc.perform(get("/v1/assets")
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .param("page", "0")
                 .param("size", "10"))
             .andExpect(status().isOk())
@@ -167,7 +167,7 @@ class AssetIntegrationTest {
     void getAssetById_ShouldReturnAssetFromDatabase() throws Exception {
         // When/Then
         mockMvc.perform(get("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(adminUser))))
+                .with(user(new PrincipalUser(adminUser))))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value(asset.getId()))
             .andExpect(jsonPath("$.assetTag").value("INTEGRATION-001"))
@@ -179,7 +179,7 @@ class AssetIntegrationTest {
     void getAssetByQrCode_ShouldReturnAssetFromDatabase() throws Exception {
         // When/Then
         mockMvc.perform(get("/v1/assets/qr/QR-INTEGRATION-001")
-                .with(user(new UserPrincipal(adminUser))))
+                .with(user(new PrincipalUser(adminUser))))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.assetTag").value("INTEGRATION-001"))
             .andExpect(jsonPath("$.name").value("Integration Test Asset"));
@@ -197,7 +197,7 @@ class AssetIntegrationTest {
 
         // When
         mockMvc.perform(put("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isOk())
@@ -231,7 +231,7 @@ class AssetIntegrationTest {
 
         // When/Then
         mockMvc.perform(put("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isConflict());
@@ -245,7 +245,7 @@ class AssetIntegrationTest {
 
         // When
         mockMvc.perform(delete("/v1/assets/" + assetId)
-                .with(user(new UserPrincipal(adminUser))))
+                .with(user(new PrincipalUser(adminUser))))
             .andExpect(status().isNoContent());
 
         // Then - verify asset is deleted from database
@@ -269,11 +269,11 @@ class AssetIntegrationTest {
 
         // When/Then - other user should not be able to access assets from different org
         mockMvc.perform(get("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(otherUser))))
+                .with(user(new PrincipalUser(otherUser))))
             .andExpect(status().isForbidden());
 
         mockMvc.perform(get("/v1/assets/qr/QR-INTEGRATION-001")
-                .with(user(new UserPrincipal(otherUser))))
+                .with(user(new PrincipalUser(otherUser))))
             .andExpect(status().isForbidden());
     }
 
@@ -296,30 +296,30 @@ class AssetIntegrationTest {
 
         // When/Then - Inspector should not be able to create assets
         mockMvc.perform(post("/v1/assets")
-                .with(user(new UserPrincipal(inspectorUser)))
+                .with(user(new PrincipalUser(inspectorUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createRequest)))
             .andExpect(status().isForbidden());
 
         // Inspector should not be able to update assets
         mockMvc.perform(put("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(inspectorUser)))
+                .with(user(new PrincipalUser(inspectorUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateRequest)))
             .andExpect(status().isForbidden());
 
         // Inspector should not be able to delete assets
         mockMvc.perform(delete("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(inspectorUser))))
+                .with(user(new PrincipalUser(inspectorUser))))
             .andExpect(status().isForbidden());
 
         // But Inspector should be able to view assets
         mockMvc.perform(get("/v1/assets")
-                .with(user(new UserPrincipal(inspectorUser))))
+                .with(user(new PrincipalUser(inspectorUser))))
             .andExpect(status().isOk());
 
         mockMvc.perform(get("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(inspectorUser))))
+                .with(user(new PrincipalUser(inspectorUser))))
             .andExpect(status().isOk());
     }
 
@@ -337,7 +337,7 @@ class AssetIntegrationTest {
 
         // When
         mockMvc.perform(post("/v1/assets")
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isNotFound());
@@ -365,7 +365,7 @@ class AssetIntegrationTest {
 
         // When - first update should succeed
         mockMvc.perform(put("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request1)))
             .andExpect(status().isOk())
@@ -373,7 +373,7 @@ class AssetIntegrationTest {
 
         // Then - second update with same version should fail
         mockMvc.perform(put("/v1/assets/" + asset.getId())
-                .with(user(new UserPrincipal(adminUser)))
+                .with(user(new PrincipalUser(adminUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request2)))
             .andExpect(status().isConflict());
