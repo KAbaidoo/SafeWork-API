@@ -38,10 +38,12 @@ All endpoints will be versioned (e.g., /v1/). All successful responses will use 
 
 **4.1. Assets**
 
-* GET /v1/assets: Retrieve a list of all assets.  
-* GET /v1/assets/{qr\_code\_id}: Retrieve a single asset by its QR code ID.  
+* GET /v1/assets: Retrieve a paginated list of all assets for the user's organization.  
+* GET /v1/assets/{id}: Retrieve a single asset by its database ID.
+* GET /v1/assets/qr/{qr\_code\_id}: Retrieve a single asset by its QR code ID.  
 * POST /v1/assets: Create a new asset. Requires admin role.  
 * PUT /v1/assets/{id}: Update an asset. Requires version field in the request.
+* DELETE /v1/assets/{id}: Delete an asset. Requires admin role.
 
 **4.2. Checklists**
 
