@@ -78,7 +78,7 @@ public class Asset {
     // --- Status & Compliance ---
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AssetStatus status; // Operational status [cite: 281]
+    private AssetStatus status; // Operational status
 
     @Enumerated(EnumType.STRING)
     private ComplianceStatus complianceStatus;
