@@ -38,4 +38,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return true if a user with the email exists, false otherwise.
      */
     boolean existsByEmail(String email);
+
+    /**
+     * Counts the number of users in a specific department.
+     * Used for maintaining department employee count statistics.
+     *
+     * @param departmentId The ID of the department.
+     * @return The number of users in the department.
+     */
+    long countByDepartmentId(Long departmentId);
 }
