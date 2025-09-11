@@ -4,8 +4,8 @@ import com.safework.api.domain.asset.model.Asset;
 import com.safework.api.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,18 +26,36 @@ public class Organization {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(length = 500)
+    private String address;
+
+    @Column
+    private String phone;
+
+    @Column
+    private String website;
+
+    @Column
+    private String industry;
+
+    @Enumerated(EnumType.STRING)
+    private OrganizationSize size;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    @Setter(AccessLevel.NONE)
+    private LocalDateTime updatedAt;
 
     // --- Relationships ---
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users;
 
-    // Optional: direct link to assets, though often accessed via users.
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Asset> assets;
-    
 }
