@@ -11,7 +11,8 @@
       "Bash(rm:*)",
       "Bash(git rm:*)",
       "Bash(mv:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
