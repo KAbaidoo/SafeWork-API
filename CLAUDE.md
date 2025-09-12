@@ -41,7 +41,7 @@ export JWT_SECRET=your_jwt_secret_minimum_256_bits
 - **API Versioning**: All endpoints prefixed with `/api/v1/`
 
 ### Implementation Status
-- ✅ **Fully Implemented**: Asset Management, Authentication, Organization, Department, Location, User
+- ✅ **Fully Implemented**: Asset Management, Authentication, Organization, Department, Location, User, Supplier
 - 📋 **Models Only**: Issue, Inspection, Checklist, Maintenance, etc.
 
 ### Test Coverage Status
@@ -51,6 +51,7 @@ export JWT_SECRET=your_jwt_secret_minimum_256_bits
 - ✅ **Department Domain**: 5 test classes (117 total tests)
 - ✅ **Location Domain**: 5 test classes (128 total tests)
 - ✅ **User Domain**: 5 test classes (24 integration tests, full coverage)
+- ✅ **Supplier Domain**: 5 test classes (86 total tests, full coverage)
 
 ### Key Domain Relationships
 ```
@@ -303,6 +304,7 @@ private void setEntityId(Object entity, Long id) {
 ./mvnw test -Dtest="com.safework.api.domain.asset.**"
 ./mvnw test -Dtest="com.safework.api.domain.location.**"
 ./mvnw test -Dtest="com.safework.api.domain.user.**"
+./mvnw test -Dtest="com.safework.api.domain.supplier.**"
 
 # Specific test methods
 ./mvnw test -Dtest=DepartmentServiceTest#shouldCreateDepartment_WhenValidRequest
