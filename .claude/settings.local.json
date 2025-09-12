@@ -7,7 +7,9 @@
       "Bash(afplay:*)",
       "WebSearch",
       "Bash(./mvnw:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(rm:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

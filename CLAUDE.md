@@ -41,9 +41,18 @@ export JWT_SECRET=your_jwt_secret_minimum_256_bits
 - **API Versioning**: All endpoints prefixed with `/api/v1/`
 
 ### Implementation Status
-- ✅ **Fully Implemented**: Asset Management, Authentication
-- 🔶 **Partially Implemented**: User, Organization (models + repositories only)
-- 📋 **Models Only**: All other domains (Department, Location, Issue, Inspection, etc.)
+- ✅ **Fully Implemented**: Asset Management, Authentication, Organization, Department
+- 🔶 **Partially Implemented**: User (missing integration tests)
+- 📋 **Models Only**: All other domains (Location, Issue, Inspection, etc.)
+
+### Test Coverage Status
+**Complete Test Suites** (Repository, Service, Controller, Integration, Mapper):
+- ✅ **Asset Domain**: 5 test classes with comprehensive coverage
+- ✅ **Organization Domain**: 5 test classes (117 total tests)
+- ✅ **Department Domain**: 5 test classes (117 total tests)
+
+**Partial Test Coverage**:
+- 🔶 **User Domain**: Repository, Service, Controller, Mapper tests (missing integration tests)
 
 ### Key Domain Relationships
 ```
@@ -217,10 +226,66 @@ public ResponseEntity<AssetDto> createAsset(@Valid @RequestBody CreateAssetReque
 - Flyway disabled for tests (`spring.flyway.enabled: false`)
 - SQL logging enabled for debugging
 
-### Test Types
-- **Repository Tests**: `@DataJpaTest` for database layer testing
-- **Integration Tests**: Full Spring context with `@SpringBootTest`
-- **Test Data**: Use builders or factory methods, avoid hardcoded IDs
+### Test Architecture Pattern
+
+Each fully implemented domain follows a **5-layer test structure**:
+
+1. **Repository Tests** (`@DataJpaTest`)
+   - Database layer testing with TestEntityManager
+   - Custom query method validation
+   - Constraint and relationship testing
+   - ~25-30 tests per domain
+
+2. **Service Tests** (`@ExtendWith(MockitoExtension.class)`)
+   - Business logic testing with mocked dependencies
+   - Multi-tenant security validation
+   - Error scenario coverage
+   - ~20-25 tests per domain
+
+3. **Controller Tests** (`@WebMvcTest`)
+   - REST endpoint testing with MockMvc
+   - Security integration (`@WithMockUser`)
+   - Request/response validation
+   - ~25-30 tests per domain
+
+4. **Integration Tests** (`@SpringBootTest`)
+   - End-to-end testing with full Spring context
+   - Real database transactions
+   - Complete workflow validation
+   - ~15-20 tests per domain
+
+5. **Mapper Tests** (Plain JUnit)
+   - DTO conversion testing
+   - Null handling and edge cases
+   - Field mapping consistency
+   - ~15-20 tests per domain
+
+### Testing Patterns and Conventions
+
+**Protected Field Testing**:
+```java
+// Helper method for setting @Setter(AccessLevel.NONE) fields
+private void setEntityId(Object entity, Long id) {
+    try {
+        Field idField = entity.getClass().getDeclaredField("id");
+        idField.setAccessible(true);
+        idField.set(entity, id);
+    } catch (Exception e) {
+        throw new RuntimeException("Failed to set entity ID", e);
+    }
+}
+```
+
+**Multi-Tenant Security Testing**:
+- Always test cross-organization data isolation
+- Validate that users can only access their organization's data
+- Test role-based permissions (ADMIN, SUPERVISOR, INSPECTOR)
+
+**Comprehensive Coverage Goals**:
+- **Happy path scenarios**: Standard CRUD operations
+- **Edge cases**: Empty strings, null values, boundary conditions  
+- **Error scenarios**: Constraint violations, not found, access denied
+- **Security scenarios**: Cross-organization access, role permissions
 
 ### Running Tests
 ```bash
@@ -229,7 +294,46 @@ public ResponseEntity<AssetDto> createAsset(@Valid @RequestBody CreateAssetReque
 
 # Specific test categories
 ./mvnw test -Dtest="*RepositoryTest"
+./mvnw test -Dtest="*ServiceTest"
+./mvnw test -Dtest="*ControllerTest"
 ./mvnw test -Dtest="*IntegrationTest"
+./mvnw test -Dtest="*MapperTest"
+
+# Domain-specific tests
+./mvnw test -Dtest="com.safework.api.domain.organization.**"
+./mvnw test -Dtest="com.safework.api.domain.department.**"
+./mvnw test -Dtest="com.safework.api.domain.asset.**"
+
+# Specific test methods
+./mvnw test -Dtest=DepartmentServiceTest#shouldCreateDepartment_WhenValidRequest
+```
+
+### Test Utilities and Helpers
+
+**Reflection Utilities** (for entities with protected setters):
+```java
+// Set entity IDs for testing
+setEntityId(organization, 1L);
+
+// Set audit timestamps for testing
+setTimestamp(department, "createdAt", LocalDateTime.now());
+setTimestamp(department, "updatedAt", LocalDateTime.now());
+```
+
+**Security Test Setup**:
+```java
+@WithMockUser(username = "admin@testorg.com", authorities = {"ADMIN"})
+void testAdminEndpoint() {
+    // Test admin-specific functionality
+}
+```
+
+**Pagination Testing**:
+```java
+// Test pagination boundaries and content
+Page<Department> result = repository.findAllByOrganizationId(orgId, PageRequest.of(0, 5));
+assertThat(result.getContent()).hasSize(5);
+assertThat(result.getTotalElements()).isEqualTo(expectedTotal);
 ```
 
 ## Configuration Profiles
