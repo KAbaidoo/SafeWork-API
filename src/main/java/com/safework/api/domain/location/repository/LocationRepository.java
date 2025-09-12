@@ -1,6 +1,7 @@
 package com.safework.api.domain.location.repository;
 
 import com.safework.api.domain.location.model.Location;
+import com.safework.api.domain.location.model.LocationType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -69,6 +70,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
      */
     @Query("SELECT l FROM Location l WHERE l.organization.id = :organizationId AND l.locationType = :locationType")
     Page<Location> findByOrganizationIdAndLocationType(@Param("organizationId") Long organizationId, 
-                                                       @Param("locationType") String locationType, 
+                                                       @Param("locationType") LocationType locationType, 
                                                        Pageable pageable);
 }
