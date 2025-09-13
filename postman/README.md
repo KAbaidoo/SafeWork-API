@@ -69,7 +69,25 @@ The collection is organized into folders:
 - Update Supplier
 - Delete Supplier
 
-### 7. **Error Cases**
+### 7. **Maintenance Schedules**
+- Get All Maintenance Schedules (with pagination)
+- Create Maintenance Schedule (Admin/Supervisor only)
+- Get Maintenance Schedule by ID
+- Update Maintenance Schedule
+- Delete Maintenance Schedule (Admin only)
+
+### 8. **Maintenance Logs**
+- Get All Maintenance Logs (with pagination)
+- Get Maintenance Logs by Asset ID
+- Get Maintenance Logs by Technician ID
+- Get Overdue Maintenance Logs
+- Get Maintenance Logs by Date Range
+- Create Maintenance Log (Admin/Supervisor only)
+- Get Maintenance Log by ID
+- Update Maintenance Log
+- Delete Maintenance Log (Admin only)
+
+### 9. **Error Cases**
 - Unauthorized (no token)
 - Not Found (invalid ID)
 - Bad Request (invalid data)
@@ -115,7 +133,8 @@ The collection uses these environment variables:
 - `token` - JWT token for current user
 - `supervisorToken` - Token for supervisor role
 - `inspectorToken` - Token for inspector role
-- `assetId`, `userId`, `departmentId`, etc. - IDs for testing
+- `assetId`, `userId`, `departmentId`, `locationId`, `supplierId` - IDs for testing
+- `maintenanceScheduleId`, `maintenanceLogId` - Maintenance domain IDs for testing
 
 ## Troubleshooting
 
