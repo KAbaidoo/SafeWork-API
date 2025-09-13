@@ -27,6 +27,8 @@ These are the primary data structures the API will manage. Each model that is su
 * **Checklist**: id, name, template\_data (JSON object), version, created\_at  
 * **Inspection**: id, checklist\_id, asset\_id, user\_id, report\_data (JSON object), created\_at  
 * **Issue**: id, inspection\_id, asset\_id, description, photo\_url, status (open, in\_progress, resolved), created\_at
+* **MaintenanceSchedule**: id, asset\_id, name, frequency\_interval, frequency\_unit, is\_active, version, created\_at
+* **MaintenanceLog**: id, asset\_id, technician\_id, service\_date, service\_type, description, cost, notes, version, created\_at
 
 ---
 
@@ -62,6 +64,26 @@ All endpoints will be versioned (e.g., /v1/). All successful responses will use 
 * POST /v1/issues: Create a new issue report.  
 * GET /v1/issues?status={status}: Retrieve a list of issues filtered by status.  
 * PUT /v1/issues/{id}: Update an issue's status or details.
+
+**4.5. Maintenance Schedules**
+
+* GET /v1/maintenance-schedules: Retrieve a paginated list of all maintenance schedules for the user's organization.
+* GET /v1/maintenance-schedules/{id}: Retrieve a single maintenance schedule by its database ID.
+* POST /v1/maintenance-schedules: Create a new maintenance schedule. Requires admin or supervisor role.
+* PUT /v1/maintenance-schedules/{id}: Update a maintenance schedule. Requires version field in the request.
+* DELETE /v1/maintenance-schedules/{id}: Delete a maintenance schedule. Requires admin role.
+
+**4.6. Maintenance Logs**
+
+* GET /v1/maintenance-logs: Retrieve a paginated list of all maintenance logs for the user's organization.
+* GET /v1/maintenance-logs/{id}: Retrieve a single maintenance log by its database ID.
+* GET /v1/maintenance-logs/asset/{asset\_id}: Retrieve all maintenance logs for a specific asset.
+* GET /v1/maintenance-logs/technician/{technician\_id}: Retrieve all maintenance logs performed by a specific technician.
+* GET /v1/maintenance-logs/overdue: Retrieve maintenance logs that are overdue based on schedule.
+* GET /v1/maintenance-logs/date-range?startDate={date}&endDate={date}: Retrieve maintenance logs within a specified date range.
+* POST /v1/maintenance-logs: Create a new maintenance log entry. Requires admin or supervisor role.
+* PUT /v1/maintenance-logs/{id}: Update a maintenance log. Requires version field in the request.
+* DELETE /v1/maintenance-logs/{id}: Delete a maintenance log. Requires admin role.
 
 ---
 
