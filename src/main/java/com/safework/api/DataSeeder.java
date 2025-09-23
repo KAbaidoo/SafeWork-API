@@ -21,9 +21,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data seeder for development environment sample data.
+ * 
+ * DEPRECATED: This class has been replaced by Flyway migration V999__sample_data_for_dev.sql
+ * 
+ * The sample data is now handled by Flyway migrations for better consistency and deployment.
+ * This class is kept for reference but should not be activated.
+ */
 @Component
 @RequiredArgsConstructor
-@Profile("dev") // IMPORTANT: This component only runs when the 'dev' profile is active
+@Profile("never") // DEPRECATED: Sample data moved to Flyway migration V999__sample_data_for_dev.sql
 public class DataSeeder implements CommandLineRunner {
 
     private final OrganizationRepository organizationRepository;
