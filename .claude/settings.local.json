@@ -13,7 +13,10 @@
       "Bash(mv:*)",
       "Bash(grep:*)",
       "Bash(curl:*)",
-      "Bash(brew list:*)"
+      "Bash(brew list:*)",
+      "Bash(mkdir:*)",
+      "Bash(export:*)",
+      "Bash(psql:*)"
     ],
     "deny": [],
     "ask": []

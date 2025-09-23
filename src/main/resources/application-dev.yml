@@ -14,8 +14,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      # Use 'create-drop' for initial setup, then switch to 'validate' with Flyway
-      ddl-auto: create-drop
+      # Use 'none' to let Flyway manage schema completely
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
