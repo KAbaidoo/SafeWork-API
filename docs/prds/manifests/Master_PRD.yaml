@@ -1,0 +1,27 @@
+id: master-prd
+title: SafeWork Master PRD
+summary: "High-level product requirements for SafeWork: mobile-first inspections platform with web dashboard, API, and analytics."
+owner: kobby
+labels: [platform, core]
+priority: high
+goal: "Deliver a mobile-first inspections product with an admin web dashboard and robust API that supports offline-first mobile usage and version-based sync."
+constraints:
+  - mobile-first and offline functionality required
+  - API must support version-based synchronization
+acceptance_criteria:
+  - "MVP mobile checklist flow implemented and syncs with backend"
+  - "Web dashboard can view issues and assign tasks"
+tasks:
+  - id: m-task-001
+    title: Implement mobile auth and offline checklist flow
+    type: mobile
+  - id: m-task-002
+    title: Create core API endpoints for checklists, inspections, and issues
+    type: backend
+  - id: m-task-003
+    title: Build basic web dashboard with issue viewer and asset management
+    type: frontend
+artifacts:
+  - docs: docs/prds/Master_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/master-prd

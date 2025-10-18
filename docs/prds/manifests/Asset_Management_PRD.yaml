@@ -1,0 +1,38 @@
+id: asset-management
+title: Asset Management
+summary: "Asset inventory, detail view, history, create/edit functionality and data model for assets."
+owner: ops@company.local
+labels: [frontend, backend, asset]
+priority: high
+goal: "Provide a central hub to create, view, manage and track assets and their histories."
+data_model:
+  id: string
+  name: string
+  qr_code_id: string
+  serial_number: string
+  status: string
+  location: string
+  last_inspection_date: date-time
+  next_service_date: date-time
+  warranty_expiration: date-time
+  custom_attributes_json: object
+  version: integer
+endpoints:
+  - GET: /v1/assets
+  - GET: /v1/assets/{id}
+  - POST: /v1/assets
+  - PUT: /v1/assets/{id}
+acceptance_criteria:
+  - "Asset list is paginated, sortable and filterable"
+  - "Asset detail view shows identification and history tabs"
+tasks:
+  - id: am-task-001
+    title: Build Asset List DataGrid with server-side pagination
+    type: frontend
+  - id: am-task-002
+    title: Implement Asset Detail API and history endpoint
+    type: backend
+artifacts:
+  - docs: docs/prds/Asset_Management_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/asset-management

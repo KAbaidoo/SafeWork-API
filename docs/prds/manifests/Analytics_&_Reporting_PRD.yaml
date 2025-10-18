@@ -1,0 +1,24 @@
+id: analytics-reporting
+title: Analytics & Reporting
+summary: "Dashboards and reports to analyze trends, top assets, MTTR, and compliance metrics."
+owner: analytics@company.local
+labels: [analytics, backend, frontend]
+priority: medium
+goal: "Provide administrators with tools to evaluate performance, monitor compliance, and identify risk areas."
+endpoints:
+  - GET: /analytics/top-issues
+  - GET: /analytics/issue-trends
+  - GET: /analytics/mttr
+acceptance_criteria:
+  - "Trend analysis graph and Top 5 assets chart available and filterable"
+tasks:
+  - id: an-task-001
+    title: Implement issue trends endpoint
+    type: backend
+  - id: an-task-002
+    title: Build analytics dashboard components and charts
+    type: frontend
+artifacts:
+  - docs: docs/prds/Analytics_&_Reporting_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/analytics-reporting

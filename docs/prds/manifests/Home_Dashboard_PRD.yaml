@@ -1,0 +1,26 @@
+id: home-dashboard
+title: Home / Dashboard (Command Center)
+summary: "Supervisor-focused dashboard showing unassigned issues, overdue tasks, compliance scorecard and activity feed."
+owner: product@company.local
+labels: [frontend, dashboard]
+priority: high
+goal: "Provide supervisors with a clear, actionable overview and real-time counters to prioritize work."
+endpoints:
+  - GET: /v1/issues?status=open
+  - GET: /v1/issues?status=overdue
+  - GET: /v1/inspections?limit=10
+  - GET: /analytics/completion-rate
+acceptance_criteria:
+  - "Real-time counters for Unassigned Issues and Overdue Tasks"
+  - "Compliance scorecard reflects inspection completion rates"
+tasks:
+  - id: h-task-001
+    title: Implement Unassigned Issues counter with websocket updates
+    type: frontend
+  - id: h-task-002
+    title: Build Compliance Scorecard component and API integration
+    type: frontend
+artifacts:
+  - docs: docs/prds/Home_Dashboard_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/home-dashboard

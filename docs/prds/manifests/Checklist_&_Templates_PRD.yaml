@@ -1,0 +1,25 @@
+id: checklists-templates
+title: Checklists & Templates
+summary: "Builder and management interface for inspection templates used by mobile app."
+owner: templates@company.local
+labels: [admin, frontend]
+priority: medium
+goal: "Allow administrators to create, manage and publish checklist templates for mobile use."
+endpoints:
+  - GET: /v1/checklists
+  - POST: /v1/checklists
+  - PUT: /v1/checklists/{id}
+acceptance_criteria:
+  - "Admins can create and publish templates"
+  - "Templates support multiple question types and are stored as JSON"
+tasks:
+  - id: ct-task-001
+    title: Implement drag-and-drop checklist builder UI
+    type: frontend
+  - id: ct-task-002
+    title: Implement checklist CRUD API with admin permissions
+    type: backend
+artifacts:
+  - docs: docs/prds/Checklist_&_Templates_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/checklists-templates
