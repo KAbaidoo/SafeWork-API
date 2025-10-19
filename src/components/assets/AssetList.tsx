@@ -100,7 +100,7 @@ export default function AssetList() {
       });
 
       // Debug log to inspect actual API shape if needed
-      // console.debug('assets API response:', response)
+      console.debug('assets API response:', response);
 
       // The backend may return several shapes:
       // 1) An array of items
