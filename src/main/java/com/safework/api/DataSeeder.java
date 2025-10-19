@@ -24,14 +24,12 @@ import java.util.Map;
 /**
  * Data seeder for development environment sample data.
  * 
- * DEPRECATED: This class has been replaced by Flyway migration V999__sample_data_for_dev.sql
- * 
- * The sample data is now handled by Flyway migrations for better consistency and deployment.
- * This class is kept for reference but should not be activated.
+ * Provides sample data for development and testing. Only runs in 'dev' profile
+ * and includes idempotency checks to prevent duplicate data creation.
  */
 @Component
 @RequiredArgsConstructor
-@Profile("never") // DEPRECATED: Sample data moved to Flyway migration V999__sample_data_for_dev.sql
+@Profile("dev")
 public class DataSeeder implements CommandLineRunner {
 
     private final OrganizationRepository organizationRepository;
