@@ -20,14 +20,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true # Makes the logged SQL more readable
-        # Enable JSONB support
+        # Enable JSONB support for PostgreSQL
         jdbc:
           time_zone: UTC
 
   # --- Enable Flyway for PostgreSQL migrations ---
   flyway:
     enabled: true
-    # Will be used once migration files are created
     baseline-on-migrate: true
 
 # --- Enhanced Logging for Debugging ---
