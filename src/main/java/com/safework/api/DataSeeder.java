@@ -21,9 +21,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data seeder for development environment sample data.
+ * 
+ * Provides sample data for development and testing. Only runs in 'dev' profile
+ * and includes idempotency checks to prevent duplicate data creation.
+ */
 @Component
 @RequiredArgsConstructor
-@Profile("dev") // IMPORTANT: This component only runs when the 'dev' profile is active
+@Profile("dev")
 public class DataSeeder implements CommandLineRunner {
 
     private final OrganizationRepository organizationRepository;

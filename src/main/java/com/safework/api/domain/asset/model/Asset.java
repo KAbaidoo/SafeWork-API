@@ -110,7 +110,7 @@ public class Asset {
 
     // --- Custom & Sync Fields ---
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "json")
+    @Column(columnDefinition = "jsonb")
     private Map<String, Object> customAttributes;
 
     @Version

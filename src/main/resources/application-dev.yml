@@ -4,31 +4,34 @@ server:
   port: 8081 # Running on a different port to avoid conflicts
 
 spring:
-  # --- MariaDB Database Configuration for Development ---
+  # --- PostgreSQL Database Configuration for Development ---
   datasource:
-    url: jdbc:mariadb://localhost:3306/safeworkdb_dev?createDatabaseIfNotExist=true
-    username: safework_dev_user # Use a dedicated user for development
+    url: jdbc:postgresql://localhost:5432/safeworkdb_dev
+    username: safework_dev_user
     password: ${DB_DEV_PASSWORD} # Use an environment variable for the password
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     show-sql: true
     hibernate:
-      # 'update' is a good choice for development with a persistent DB.
-      # It adds new tables/columns automatically, saving time.
-      # Flyway will handle the initial schema creation.
-      ddl-auto: update
+      # Use 'none' to let Flyway manage schema completely
+      ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true # Makes the logged SQL more readable
+        # Enable JSONB support for PostgreSQL
+        jdbc:
+          time_zone: UTC
 
-  # --- Enable Flyway for the persistent database ---
+  # --- Enable Flyway for PostgreSQL migrations ---
   flyway:
-    enabled: true # Flyway must be enabled to manage the schema state
+    enabled: true
+    baseline-on-migrate: true
 
 # --- Enhanced Logging for Debugging ---
 logging:
   level:
     # Shows Hibernate's parameter binding in logs
     org.hibernate.type.descriptor.sql: trace
+    org.hibernate.SQL: debug
