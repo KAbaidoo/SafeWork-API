@@ -50,13 +50,10 @@ VALUES
     );
 
 -- 3. Insert sample asset type
-INSERT INTO asset_types (organization_id, name, description, created_at, updated_at)
+INSERT INTO asset_types (organization_id, name)
 VALUES (
     (SELECT id FROM organizations WHERE name = 'Apex Global Logistics'),
-    'Forklift',
-    'Material handling equipment for warehouse operations',
-    CURRENT_TIMESTAMP,
-    CURRENT_TIMESTAMP
+    'Forklift'
 );
 
 -- 4. Insert sample asset with JSONB custom attributes
@@ -67,7 +64,7 @@ INSERT INTO assets (
     name, 
     qr_code_id, 
     status, 
-    assigned_to, 
+    assigned_to_user_id, 
     purchase_date, 
     purchase_cost, 
     custom_attributes,
