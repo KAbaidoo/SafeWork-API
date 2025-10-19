@@ -23,12 +23,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 
 ### Database Setup
-MariaDB is required for development:
+PostgreSQL is required for development:
 ```bash
 # Required environment variables
-export DB_PASSWORD=your_dev_password
-export DB_DEV_PASSWORD=your_dev_password
+export DB_PASSWORD=your_production_password
+export DB_DEV_PASSWORD=your_dev_password  
 export JWT_SECRET=your_jwt_secret_minimum_256_bits
+
+# For development with provided sample credentials:
+export DB_DEV_PASSWORD=Warhammer2000
+export JWT_SECRET=33bb10979d8682ce60f944465eaeca3fa8ffcaf6e7c246a43a5f0f769c58bd37
 ```
 
 ## Architecture Overview
@@ -343,8 +347,8 @@ assertThat(result.getTotalElements()).isEqualTo(expectedTotal);
 
 ### Development (`dev` profile)
 - Port: 8081
-- Database: MariaDB with `safeworkdb_dev`
-- Hibernate DDL: `update` (adds new schema automatically)
+- Database: PostgreSQL with `safeworkdb_dev`
+- Hibernate DDL: `none` (schema managed by Flyway migrations)
 - SQL logging enabled with formatting
 
 ### Test Profile
@@ -376,6 +380,8 @@ The `DataSeeder` component (runs only in `dev` profile) creates:
 
 - **API Context Path**: All endpoints prefixed with `/api` (configurable in application.yml)
 - **JSON Configuration**: Non-null serialization, ISO date formatting
-- **Database**: Uses MariaDB dialect with Hypersistence Utils for JSON support
+- **Database**: Uses PostgreSQL with native JSONB support and advanced indexing
+- **Schema Management**: Single consolidated V1__initial_schema.sql with complete table structure, indexes, and constraints
+- **JSONB Support**: Custom attributes stored as JSONB in assets, inspection reports, and checklist templates
 - **Security**: BCrypt password encoding, JWT token validation filter
 - **Validation**: Bean validation with `@Valid` annotations on request DTOs
