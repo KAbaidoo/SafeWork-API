@@ -1,0 +1,23 @@
+id: aseet-maintenance-prd
+title: Asset Maintenance PRD
+source: ../assets/Aseet_Maintenance_PRD.md
+version: 1.0.0
+created_at: 2025-10-20
+authors:
+  - name: Unknown
+status: draft
+summary: |
+  Machine-readable manifest for the Asset Maintenance PRD. Replace this summary with the actual PRD summary.
+sections:
+  - id: overview
+    title: Overview
+    description: ''
+  - id: goals
+    title: Goals
+    description: ''
+  - id: requirements
+    title: Requirements
+    description: ''
+  - id: milestones
+    title: Milestones
+    description: ''

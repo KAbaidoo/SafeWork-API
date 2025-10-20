@@ -1,9 +1,9 @@
-# Module PRD: Asset Management
+# Module PRD: Asset Management - Assets (Inventory)
 
 ## 1. Introduction & Purpose
 
-This document outlines the specific requirements for the **Asset Management** module of the SafeWork Web Dashboard.
-
+* **Module**: Asset Management
+* **Sub-Module**: Assets
 * **Purpose**: To serve as the central hub for supervisors and administrators to create, view, manage, and track the complete inventory and operational history of all physical assets within the system.
 * **Target Users**:
     * **Administrator**: Full CRUD (Create, Read, Update, Delete) access.
@@ -35,7 +35,6 @@ This document outlines the specific requirements for the **Asset Management** mo
 * **[R-AM-08]** The system **shall** organize all asset information using **MUI Tabs** to reduce cognitive load. The tabs shall be:
     * Tab 1: **Details**
     * Tab 2: **History**
-
 * **[R-AM-09] (Details Tab)** The "Details" tab **shall** display the following data fields, grouped by section:
     * **Identification**:
         * Asset Name
@@ -50,7 +49,6 @@ This document outlines the specific requirements for the **Asset Management** mo
         * Warranty Expiration
     * **Custom Data**:
         * All key-value pairs from the asset's `Custom Attributes` (JSON object) shall be displayed in a clean, readable definition list (e.g., "Key: Value").
-
 * **[R-AM-10] (History Tab)** The "History" tab **shall** display a chronological, reverse-sorted list (newest first) of all inspections and issues associated with the asset.
 * **[R-AM-11] (History Tab)** Each item in the history feed **shall** be scannable, displaying its type (e.g., "Inspection" or "Issue"), date, and a brief description, and **shall** link to the full detail view for that specific inspection or issue.
 
@@ -78,6 +76,15 @@ This document outlines the specific requirements for the **Asset Management** mo
     * **MUI `Card` / `Paper`**: Used to contain the sections (Identification, Status, etc.) within the "Details" tab.
     * **MUI `Chip`**: Used to display asset `Status` with appropriate colors (e.g., Green for "In Service," Red for "Out of Service").
 * **Visuals**: As per the design brief, primary data in the DataGrid (e.g., `Asset Name`) should be **bold** to improve scannability.
+
+## 4. API Integration & Data
+
+* **Key Endpoints**:
+    * `GET /v1/assets` (with server-side query params for sort, filter, and search)
+    * `POST /v1/assets` (Admin only)
+    * `GET /v1/assets/{qr_code_id}` (for the Detail View)
+    * `PUT /v1/assets/{id}` (Admin only, must include `version`)
+    * `GET /analytics/asset-history/{id}` (to populate the History Tab)
 
 ## 4. API Integration & Data
 

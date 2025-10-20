@@ -1,0 +1,23 @@
+id: asset-inventory-prd
+title: Asset Inventory PRD
+source: ../assets/Asset_Inventory_PRD.md
+version: 1.0.0
+created_at: 2025-10-20
+authors:
+  - name: Unknown
+status: draft
+summary: |
+  Machine-readable manifest for the Asset Inventory PRD. Replace with real summary.
+sections:
+  - id: overview
+    title: Overview
+    description: ''
+  - id: data-model
+    title: Data Model
+    description: ''
+  - id: api
+    title: API Endpoints
+    description: ''
+  - id: constraints
+    title: Constraints
+    description: ''
