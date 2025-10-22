@@ -1,0 +1,23 @@
+id: asset-reports-prd
+title: Asset Reports PRD
+source: ../assets/Asset_Reports_PRD.md
+version: 1.0.0
+created_at: 2025-10-20
+authors:
+  - name: Unknown
+status: draft
+summary: |
+  Machine-readable manifest for the Asset Reports PRD. Replace with the actual PRD summary.
+sections:
+  - id: overview
+    title: Overview
+    description: ''
+  - id: reports
+    title: Reports Catalogue
+    description: ''
+  - id: scheduling
+    title: Scheduling & Delivery
+    description: ''
+  - id: security
+    title: Data Security
+    description: ''

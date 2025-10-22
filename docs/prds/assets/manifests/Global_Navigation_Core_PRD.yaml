@@ -1,0 +1,23 @@
+id: global-navigation-core-prd
+title: Global Navigation Core PRD
+source: ../assets/Global_Navigation_Core_PRD.md
+version: 1.0.0
+created_at: 2025-10-20
+authors:
+  - name: Unknown
+status: draft
+summary: |
+  Machine-readable manifest for the Global Navigation Core PRD. Replace with the actual summary from the markdown PRD.
+sections:
+  - id: overview
+    title: Overview
+    description: ''
+  - id: navigation-model
+    title: Navigation Model
+    description: ''
+  - id: accessibility
+    title: Accessibility
+    description: ''
+  - id: responsive-behaviour
+    title: Responsive Behaviour
+    description: ''
