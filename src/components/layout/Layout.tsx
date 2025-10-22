@@ -1,31 +1,39 @@
-import React from 'react'
-import { Box, CssBaseline, Toolbar } from '@mui/material'
-import Sidebar from './Sidebar'
+import React from 'react';
+import { Box, CssBaseline } from '@mui/material';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const DRAWER_WIDTH = 240
+const DRAWER_WIDTH = 240;
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <CssBaseline />
+
+      {/* Fixed Header */}
+      <Header />
+
+      {/* Fixed Left Sidebar */}
       <Sidebar />
+
+      {/* Main Content Area */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
+          ml: `${DRAWER_WIDTH}px`,
+          mt: 8, // Account for AppBar height (64px)
           p: 3,
-          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-          backgroundColor: 'background.default',
-          minHeight: '100vh',
+          backgroundColor: 'white',
+          minHeight: 'calc(100vh - 64px)',
         }}
       >
-        <Toolbar />
         {children}
       </Box>
     </Box>
-  )
+  );
 }

@@ -10,93 +10,93 @@ This document breaks down the development tasks for the six sub-modules and core
 This task list covers the application's main shell, routing, and API setup.
 
 * **Project Setup:**
-    * `[ ]` Initialize a new React (TypeScript) application using `create-react-app` or `Vite`.
-    * `[ ]` Install core dependencies: `react-router-dom`, `axios`, `@mui/material`, `@mui/icons-material`, `@emotion/react`, `@emotion/styled`.
-    * `[ ]` Set up project structure (e.g., `/components`, `/pages`, `/hooks`, `/contexts`, `/api`).
+    * `[x]` Initialize a new React (TypeScript) application using `create-react-app` or `Vite`.
+    * `[x]` Install core dependencies: `react-router-dom`, `axios`, `@mui/material`, `@mui/icons-material`, `@emotion/react`, `@emotion/styled`.
+    * `[x]` Set up project structure (e.g., `/components`, `/pages`, `/hooks`, `/contexts`, `/api`).
 * **API & Auth Setup:**
-    * `[ ]` Create an `api.ts` file that exports a pre-configured `axios` instance (with `baseURL`).
-    * `[ ]` Create a simple `AuthContext` to store a user's token and role (can be hardcoded for now, e.g., `{ role: 'admin' }`).
-    * `[ ]` Add an `axios` request interceptor that attaches the auth token (from `AuthContext`) to every API request.
+    * `[x]` Create an `api.ts` file that exports a pre-configured `axios` instance (with `baseURL`).
+    * `[x]` Create a simple `AuthContext` to store a user's token and role (can be hardcoded for now, e.g., `{ role: 'admin' }`).
+    * `[x]` Add an `axios` request interceptor that attaches the auth token (from `AuthContext`) to every API request.
 * **Core Layout Components:**
-    * `[ ]` Create a `Header.tsx` component (using MUI `AppBar`) that will hold the module selector.
-    * `[ ]` Create a `Sidebar.tsx` component (using MUI `Drawer`) that will be the "Immersive Sidebar."
-    * `[ ]` Create a `Layout.tsx` component that arranges `Header`, `Sidebar`, and a "main content" area.
+    * `[x]` Create a `Header.tsx` component (using MUI `AppBar`) that will hold the module selector.
+    * `[x]` Create a `Sidebar.tsx` component (using MUI `Drawer`) that will be the "Immersive Sidebar."
+    * `[x]` Create a `Layout.tsx` component that arranges `Header`, `Sidebar`, and a "main content" area.
 * **Routing Setup:**
-    * `[ ]` Configure `react-router-dom` in `App.tsx` with top-level routes.
-    * `[ ]` Create a `ProtectedRoute.tsx` component that reads from `AuthContext` and restricts access based on role (e.g., for the "Settings" page).
+    * `[x]` Configure `react-router-dom` in `App.tsx` with top-level routes.
+    * `[x]` Create a `ProtectedRoute.tsx` component that reads from `AuthContext` and restricts access based on role (e.g., for the "Settings" page).
 * **Global Module Selector (Top-Left):**
-    * `[ ]` Create a `ModuleContext.tsx` to store and manage the currently selected global module (e.g., "Asset Management").
-    * `[ ]` Add an MUI `Select` or `Menu` component to the `Header.tsx` component.
-    * `[ ]` Populate the selector with a static list: "Asset Management," "Checklist Builder," etc.
-    * `[ ]` Make the `Select` component update the `ModuleContext` when its value changes.
+    * `[x]` Create a `ModuleContext.tsx` to store and manage the currently selected global module (e.g., "Asset Management").
+    * `[x]` Add an MUI `Select` or `Menu` component to the `Header.tsx` component.
+    * `[x]` Populate the selector with a static list: "Asset Management," "Checklist Builder," etc.
+    * `[x]` Make the `Select` component update the `ModuleContext` when its value changes.
 * **Immersive Sidebar (Sub-Module Navigation):**
-    * `[ ]` Create a configuration object (e.g., `navigationConfig.ts`) that maps module names to their sub-section links (e.g., `{'Asset Management': [{ name: 'Dashboard', path: '/am/dashboard' }, ...]}`).
-    * `[ ]` Update `Sidebar.tsx` to read the current module from `ModuleContext`.
-    * `[ ]` Dynamically render a list of MUI `ListItem` components in the sidebar based on the `navigationConfig` for the current module.
-    * `[ ]` Use `react-router-dom`'s `NavLink` component for the `ListItem`s to handle navigation and "active" state.
+    * `[x]` Create a configuration object (e.g., `navigationConfig.ts`) that maps module names to their sub-section links (e.g., `{'Asset Management': [{ name: 'Dashboard', path: '/am/dashboard' }, ...]}`).
+    * `[x]` Update `Sidebar.tsx` to read the current module from `ModuleContext`.
+    * `[x]` Dynamically render a list of MUI `ListItem` components in the sidebar based on the `navigationConfig` for the current module.
+    * `[x]` Use `react-router-dom`'s `NavLink` component for the `ListItem`s to handle navigation and "active" state.
 
 ---
 
-## 2. Task List: Asset Management - Dashboard
+## 2. Task List: Asset Management - Dashboard ✅
 
 This covers the 4-widget landing page for the Asset Management module.
 
 * **Layout:**
-    * `[ ]` Create a new page component: `pages/AssetDashboard.tsx`.
-    * `[ ]` Add the route `/am/dashboard` to `App.tsx` to render this page.
-    * `[ ]` Use an MUI `Grid` component to create a 2x2 layout for the widgets.
+    * `[x]` Create a new page component: `pages/AssetDashboard.tsx`.
+    * `[x]` Add the route `/am/dashboard` to `App.tsx` to render this page.
+    * `[x]` Use an MUI `Grid` component to create a 2x2 layout for the widgets.
 * **Generic Counter Widget:**
-    * `[ ]` Create a reusable component: `components/widgets/CounterWidget.tsx`.
-    * `[ ]` The component should accept props: `title` (string), `count` (number), and `color` (string, e.g., 'error', 'warning').
-    * `[ ]` Use an MUI `Card` and `Typography` (e.g., `h3` or `h4`) to display the count prominently.
+    * `[x]` Create a reusable component: `components/widgets/CounterWidget.tsx`.
+    * `[x]` The component should accept props: `title` (string), `count` (number), and `color` (string, e.g., 'error', 'warning').
+    * `[x]` Use an MUI `Card` and `Typography` (e.g., `h3` or `h4`) to display the count prominently.
 * **Widget 1: "Unassigned Issues" Counter:**
-    * `[ ]` Create a data-fetching hook: `hooks/useUnassignedIssues.ts`.
-    * `[ ]` Inside the hook, call `GET /v1/issues?status=open&context=assets` and return the data (or count).
-    * `[ ]` On the `AssetDashboard` page, use this hook and pass the data to `CounterWidget` with a `warning` color.
+    * `[x]` Create a data-fetching hook: `hooks/useUnassignedIssues.ts`.
+    * `[x]` Inside the hook, call `GET /v1/issues?status=open&context=assets` and return the data (or count).
+    * `[x]` On the `AssetDashboard` page, use this hook and pass the data to `CounterWidget` with a `warning` color.
 * **Widget 2: "Overdue Tasks" Counter:**
-    * `[ ]` Create a data-fetching hook: `hooks/useOverdueTasks.ts`.
-    * `[ ]` Inside the hook, call `GET /v1/issues?status=overdue&context=assets`.
-    * `[ ]` On the `AssetDashboard` page, use this hook and pass the data to `CounterWidget` with an `error` color.
+    * `[x]` Create a data-fetching hook: `hooks/useOverdueTasks.ts`.
+    * `[x]` Inside the hook, call `GET /v1/issues?status=overdue&context=assets`.
+    * `[x]` On the `AssetDashboard` page, use this hook and pass the data to `CounterWidget` with an `error` color.
 * **Widget 3: "Compliance Scorecard":**
-    * `[ ]` Create a new component: `components/widgets/ComplianceWidget.tsx`.
-    * `[ ]` Create a hook to fetch data from `GET /analytics/completion-rate`.
-    * `[ ]` Inside the component, display the score (e.g., "95%") and use an MUI `Chip` or `LinearProgress` bar to visualize it.
+    * `[x]` Create a new component: `components/widgets/ComplianceWidget.tsx`.
+    * `[x]` Create a hook to fetch data from `GET /analytics/completion-rate`.
+    * `[x]` Inside the component, display the score (e.g., "95%") and use an MUI `Chip` or `LinearProgress` bar to visualize it.
 * **Widget 4: "Activity Feed":**
-    * `[ ]` Create a new component: `components/widgets/ActivityFeedWidget.tsx`.
-    * `[ ]` Create a hook to fetch data from `GET /v1/inspections?limit=10`.
-    * `[ ]` Use an MUI `List`, `ListItem`, and `ListItemText` to display the feed of recent inspections.
-    * `[ ]` (Bonus) Use a library like `date-fns` to format the timestamps (e.g., "2 hours ago").
+    * `[x]` Create a new component: `components/widgets/ActivityFeedWidget.tsx`.
+    * `[x]` Create a hook to fetch data from `GET /v1/inspections?limit=10`.
+    * `[x]` Use an MUI `List`, `ListItem`, and `ListItemText` to display the feed of recent inspections.
+    * `[x]` (Bonus) Use a library like `date-fns` to format the timestamps (e.g., "2 hours ago").
 
 ---
 
-## 3. Task List: Asset Management - Assets (Inventory)
+## 3. Task List: Asset Management - Assets (Inventory) ✅ (Partially Complete)
 
 This is the most detailed module, covering the DataGrid and the Create/Edit/View flows.
 
 * **Page & DataGrid Setup:**
-    * `[ ]` Create a new page component: `pages/AssetInventory.tsx`.
-    * `[ ]` Add the route `/am/assets` to `App.tsx`.
-    * `[ ]` Install `@mui/x-data-grid`.
-    * `[ ]` Create a hook `hooks/useAssets.ts` to fetch data from `GET /v1/assets`.
-    * `[ ]` Implement the `DataGrid` component on the page.
-    * `[ ]` Define the `columns` array for the DataGrid as per `[R-AM-03]`.
-    * `[ ]` (UX) Use the `renderCell` property for the "Asset Name" column to make the text bold.
-    * `[ ]` Pass the fetched asset data to the `rows` prop.
-    * `[ ]` Configure the `DataGrid` for server-side pagination (e.g., `onPageChange`).
+    * `[x]` Create a new page component: `pages/AssetInventory.tsx`.
+    * `[x]` Add the route `/am/assets` to `App.tsx`.
+    * `[x]` Install `@mui/x-data-grid`.
+    * `[x]` Create a hook `hooks/useAssets.ts` to fetch data from `GET /v1/assets`.
+    * `[x]` Implement the `DataGrid` component on the page.
+    * `[x]` Define the `columns` array for the DataGrid as per `[R-AM-03]`.
+    * `[x]` (UX) Use the `renderCell` property for the "Asset Name" column to make the text bold.
+    * `[x]` Pass the fetched asset data to the `rows` prop.
+    * `[x]` Configure the `DataGrid` for server-side pagination (e.g., `onPageChange`).
 * **Search & Filter:**
-    * `[ ]` Add an MUI `TextField` (for search) and `Select` (for status filter) above the `DataGrid`.
-    * `[ ]` Use `useState` to store the search and filter values.
-    * `[ ]` Pass these state values as query parameters to your `useAssets` hook.
+    * `[x]` Add an MUI `TextField` (for search) and `Select` (for status filter) above the `DataGrid`.
+    * `[x]` Use `useState` to store the search and filter values.
+    * `[x]` Pass these state values as query parameters to your `useAssets` hook.
 * **Asset Detail View (Page):**
-    * `[ ]` Create a new page component: `pages/AssetDetail.tsx`.
-    * `[ ]` Add the route `/am/assets/:id` to `App.tsx`.
-    * `[ ]` Make the `DataGrid` rows navigate to this page on `onRowClick`, passing the asset's ID.
-    * `[ ]` On page load, get the `id` from `useParams` and fetch data from `GET /v1/assets/{qr_code_id}`.
-    * `[ ]` Display the `Asset Name` (Typography) and `Status` (MUI `Chip`) in the header as per `[R-AM-07]`.
-    * `[ ]` Add the MUI `Tabs` component with "Details" and "History" tabs.
-    * `[ ]` **Details Tab:** Create a component to render the asset's details, grouped by section (Identification, Status, Maintenance) using MUI `Card`s as per `[R-AM-09]`.
-    * `[ ]` **History Tab:** Create a hook to fetch `GET /analytics/asset-history/{id}`.
-    * `[ ]` **History Tab:** Render the history using an MUI `List` as per `[R-AM-10]`.
+    * `[x]` Create a new page component: `pages/AssetDetail.tsx`.
+    * `[x]` Add the route `/am/assets/:id` to `App.tsx`.
+    * `[x]` Make the `DataGrid` rows navigate to this page on `onRowClick`, passing the asset's ID.
+    * `[x]` On page load, get the `id` from `useParams` and fetch data from `GET /v1/assets/{qr_code_id}`.
+    * `[x]` Display the `Asset Name` (Typography) and `Status` (MUI `Chip`) in the header as per `[R-AM-07]`.
+    * `[x]` Add the MUI `Tabs` component with "Details" and "History" tabs.
+    * `[x]` **Details Tab:** Create a component to render the asset's details, grouped by section (Identification, Status, Maintenance) using MUI `Card`s as per `[R-AM-09]`.
+    * `[x]` **History Tab:** Create a hook to fetch `GET /analytics/asset-history/{id}`.
+    * `[x]` **History Tab:** Render the history using an MUI `List` as per `[R-AM-10]`.
 * **Create/Edit Asset (Admin):**
     * `[ ]` Create a component `components/forms/AssetForm.tsx`.
     * `[ ]` Build the form fields as per `[R-AM-14]` (Name, QR Code, Status `Select`, `DatePicker` for dates).

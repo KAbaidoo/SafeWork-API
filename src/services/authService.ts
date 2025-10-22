@@ -1,47 +1,37 @@
-import axios from 'axios'
+import api from '../api/api';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081/api'
-
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
+const TOKEN_KEY = 'token';
 
 export interface LoginRequest {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface LoginResponse {
-  token: string
+  token: string;
 }
-
-const TOKEN_KEY = 'token'
 
 export const authService = {
   async login(payload: LoginRequest): Promise<LoginResponse> {
-    const res = await api.post('/login', payload)
-    // expect response shape { token: string }
-    const data = res.data as LoginResponse
+    const response = await api.post('/login', payload);
+    const data = response.data as LoginResponse;
     if (data?.token) {
-      localStorage.setItem(TOKEN_KEY, data.token)
+      localStorage.setItem(TOKEN_KEY, data.token);
     }
-    return data
+    return data;
   },
 
   logout() {
-    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(TOKEN_KEY);
   },
 
   getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY)
+    return localStorage.getItem(TOKEN_KEY);
   },
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem(TOKEN_KEY)
+    return !!localStorage.getItem(TOKEN_KEY);
   },
-}
+};
 
-export default authService
+export default authService;
