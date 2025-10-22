@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const DRAWER_WIDTH = 240;
+const DRAWER_WIDTH = 0;
 
 export default function Layout({ children }: LayoutProps) {
   return (
