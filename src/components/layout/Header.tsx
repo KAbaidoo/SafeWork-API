@@ -29,7 +29,7 @@ const Header: React.FC = () => {
               color: 'white',
             }}
           >
-            SafeWork
+            Safework
           </Typography>
         </Box>
 
