@@ -33,9 +33,21 @@ import java.util.Map;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"organization", "assetType", "department", "assignedTo", "location", "supplier", "maintenanceSchedule", "inspections", "issues", "maintenanceLogs"})
 @Entity
-@Table(name = "assets", uniqueConstraints = {
+@Table(name = "assets", 
+    uniqueConstraints = {
         @UniqueConstraint(columnNames = {"organizationId", "qrCodeId"})
-})
+    },
+    // Add check constraints to match current enum values
+    // This replaces the constraints that were lost when Flyway was removed
+    indexes = {
+        @Index(name = "idx_assets_status", columnList = "status"),
+        @Index(name = "idx_assets_compliance_status", columnList = "complianceStatus")
+    }
+)
+@org.hibernate.annotations.Check(constraints = 
+    "status IN ('ACTIVE', 'INACTIVE', 'UNDER_MAINTENANCE', 'DECOMMISSIONED') " +
+    "AND (compliance_status IS NULL OR compliance_status IN ('COMPLIANT', 'NON_COMPLIANT', 'PENDING_INSPECTION'))"
+)
 public class Asset {
     // --- Core Identification ---
     @Id
