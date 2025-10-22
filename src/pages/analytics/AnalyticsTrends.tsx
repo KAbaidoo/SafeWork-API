@@ -10,7 +10,14 @@ const AnalyticsTrends: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Historical trends and predictive analytics for system performance.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#f3e5f5', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.info.light,
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📈 Trend analysis with historical data visualization will be implemented here.
         </Typography>

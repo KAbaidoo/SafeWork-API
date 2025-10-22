@@ -10,7 +10,14 @@ const AssetReports: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Module-specific analytics and compliance reports with charts and trends.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.neutral[100],
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📊 Analytics charts and reports will be implemented here including trend analysis and
           MTTR.

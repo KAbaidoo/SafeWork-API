@@ -10,7 +10,14 @@ const OverdueTasks: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Critical overdue tasks requiring immediate attention.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#ffebee', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.error.light || '#ffebee',
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2" color="error">
           ⚠️ Critical overdue task management interface will be implemented here.
         </Typography>

@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: '#007BFF',
+        backgroundColor: (theme) => theme.palette.primary.main,
         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}

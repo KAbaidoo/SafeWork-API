@@ -10,7 +10,14 @@ const ChecklistLibrary: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Browse and manage your complete checklist library.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#e3f2fd', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.info.light,
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📚 Checklist library with search and categorization will be implemented here.
         </Typography>

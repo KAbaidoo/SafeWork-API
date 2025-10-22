@@ -346,7 +346,14 @@ const AssetDetail: React.FC = () => {
               📋 Asset history feed will show inspections, maintenance records, and issues
               chronologically (newest first).
             </Typography>
-            <Box sx={{ mt: 2, p: 2, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+            <Box
+              sx={(theme) => ({
+                mt: 2,
+                p: 2,
+                backgroundColor: theme.palette.neutral[100],
+                borderRadius: 1,
+              })}
+            >
               <Typography variant="body2">
                 🚧 History implementation coming next - will display inspections and issues with
                 dates and descriptions.

@@ -14,6 +14,7 @@ import {
 import { NavLink, useLocation } from 'react-router-dom';
 import { useModuleContext } from '../../contexts/ModuleContext';
 import { navigationConfig } from '../../config/navigationConfig';
+// use theme.palette in sx callbacks instead of direct COLORS import
 
 const DRAWER_WIDTH = 240;
 
@@ -27,17 +28,17 @@ export default function Sidebar() {
   return (
     <Drawer
       variant="permanent"
-      sx={{
+      sx={(theme) => ({
         width: DRAWER_WIDTH,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          backgroundColor: '#F8F9FA',
-          borderRight: '1px solid #E0E0E0',
+          backgroundColor: theme.palette.background.default,
+          borderRight: `1px solid ${theme.palette.neutral[300]}`,
           mt: 8, // Account for AppBar height
         },
-      }}
+      })}
     >
       {/* Module Selector */}
       <Box sx={{ p: 2, pt: 3 }}>
@@ -47,23 +48,23 @@ export default function Sidebar() {
             onChange={(event) => setSelectedModule(event.target.value as string)}
             displayEmpty
             inputProps={{ 'aria-label': 'Select Module' }}
-            sx={{
+            sx={(theme) => ({
               backgroundColor: 'white',
-              border: '1px solid #E0E0E0',
+              border: `1px solid ${theme.palette.neutral[300]}`,
               borderRadius: 1,
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
               },
               '&:hover': {
-                backgroundColor: '#F8F9FA',
-                borderColor: '#007BFF',
+                backgroundColor: theme.palette.background.default,
+                borderColor: theme.palette.primary.main,
               },
               '& .MuiSelect-select': {
                 fontWeight: 600,
-                color: '#007BFF',
+                color: theme.palette.primary.main,
                 fontSize: '1rem',
               },
-            }}
+            })}
           >
             <MenuItem value="Asset Management">Asset Management</MenuItem>
             <MenuItem value="Checklist Builder">Checklist Builder</MenuItem>
@@ -88,20 +89,20 @@ export default function Sidebar() {
                 component={NavLink}
                 to={item.path}
                 selected={isSelected}
-                sx={{
+                sx={(theme) => ({
                   borderRadius: 1,
                   mx: 1,
                   '&.Mui-selected': {
-                    backgroundColor: '#007BFF',
+                    backgroundColor: theme.palette.primary.main,
                     color: 'white',
                     '&:hover': {
-                      backgroundColor: '#0056b3',
+                      backgroundColor: theme.palette.primary.dark,
                     },
                   },
                   '&:hover': {
-                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    backgroundColor: theme.palette.action.hover || 'transparent',
                   },
-                }}
+                })}
               >
                 <ListItemText
                   primary={item.name}

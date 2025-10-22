@@ -10,7 +10,14 @@ const AnalyticsReports: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Detailed reports and exportable analytics across all system modules.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#f3e5f5', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.info.light,
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📋 Detailed reporting interface with export capabilities will be implemented here.
         </Typography>
@@ -18,5 +25,4 @@ const AnalyticsReports: React.FC = () => {
     </Box>
   );
 };
-
 export default AnalyticsReports;

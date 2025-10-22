@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const AnalyticsDashboard: React.FC = () => {
   return (
@@ -10,7 +10,14 @@ const AnalyticsDashboard: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Global analytics and key performance indicators across all modules.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#f3e5f5', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.info.light,
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📊 Comprehensive analytics dashboard with interactive charts will be implemented here.
         </Typography>

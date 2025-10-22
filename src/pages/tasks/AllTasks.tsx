@@ -10,7 +10,14 @@ const AllTasks: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         Complete overview of all tasks and corrective actions across the system.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#fff3e0', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.warning.light || '#fff3e0',
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           📝 Comprehensive task management interface will be implemented here.
         </Typography>

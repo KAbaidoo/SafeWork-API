@@ -10,7 +10,14 @@ const AssetSettings: React.FC = () => {
       <Typography variant="body1" color="text.secondary">
         User roles, integrations, and asset configuration settings.
       </Typography>
-      <Box sx={{ mt: 3, p: 2, backgroundColor: '#f5f5f5', borderRadius: 1 }}>
+      <Box
+        sx={(theme) => ({
+          mt: 3,
+          p: 2,
+          backgroundColor: theme.palette.neutral[100],
+          borderRadius: 1,
+        })}
+      >
         <Typography variant="body2">
           ⚙️ Settings interface with tabs for Roles, Integrations, and Asset Types will be
           implemented here.
