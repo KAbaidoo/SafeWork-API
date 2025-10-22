@@ -16,8 +16,7 @@
       "Bash(brew list:*)",
       "Bash(mkdir:*)",
       "Bash(export:*)",
-      "Bash(psql:*)",
-      "Bash(DB_DEV_PASSWORD=Warhammer2000 JWT_SECRET=33bb10979d8682ce60f944465eaeca3fa8ffcaf6e7c246a43a5f0f769c58bd37 ./mvnw spring-boot:run)"
+      "Bash(psql:*)"
     ],
     "deny": [],
     "ask": []
