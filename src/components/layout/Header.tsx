@@ -13,22 +13,23 @@ const Header: React.FC = () => {
     <AppBar
       position="fixed"
       sx={{
+        height: 60,
         backgroundColor: (theme) => theme.palette.primary.main,
         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ minHeight: 64 }}>
+      <Toolbar sx={{ minHeight: 60 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Typography
             variant="h6"
             component="div"
             sx={{
-              fontWeight: 600,
+              fontWeight: 500,
               color: 'white',
             }}
           >
-            SafeWork Dashboard
+            SafeWork
           </Typography>
         </Box>
 
