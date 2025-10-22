@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/v1/login")
 @RequiredArgsConstructor
 @CrossOrigin
 public class AuthController {
