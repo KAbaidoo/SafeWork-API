@@ -14,8 +14,8 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      # Use 'none' to let Flyway manage schema completely
-      ddl-auto: none
+      # Use 'update' to automatically update schema based on entities
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -24,9 +24,9 @@ spring:
         jdbc:
           time_zone: UTC
 
-  # --- Enable Flyway for PostgreSQL migrations ---
+  # --- Disable Flyway for development (using Hibernate DDL) ---
   flyway:
-    enabled: true
+    enabled: false
     baseline-on-migrate: true
 
 # --- Enhanced Logging for Debugging ---

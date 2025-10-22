@@ -23,8 +23,8 @@ spring:
   jpa:
     show-sql: false # Set to true for debugging SQL queries in development
     hibernate:
-      # Use 'create-drop' to automatically create the schema on startup and drop it on shutdown
-      ddl-auto: create-drop
+      # Use 'none' as neutral default - let profiles override this setting
+      ddl-auto: update
     properties:
       hibernate:
         # PostgreSQL dialect for optimal SQL generation
