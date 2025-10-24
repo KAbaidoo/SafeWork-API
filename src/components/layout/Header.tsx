@@ -36,7 +36,7 @@ const Header: React.FC = () => {
               color: 'white',
             }}
           >
-            | Organization Name
+            | Organization name
           </Typography>
         </Box>
 

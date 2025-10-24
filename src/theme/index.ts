@@ -52,7 +52,7 @@ export const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 8, // Global border radius (default is 4px)
+    borderRadius: 1, // Global border radius (default is 4px)
   },
   typography: {
     fontFamily: '"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',

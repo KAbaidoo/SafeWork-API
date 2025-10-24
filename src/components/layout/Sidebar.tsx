@@ -96,7 +96,7 @@ export default function Sidebar() {
                     backgroundColor: theme.palette.primary.main,
                     color: 'white',
                     '&:hover': {
-                      backgroundColor: theme.palette.primary.dark,
+                      backgroundColor: theme.palette.primary.main,
                     },
                   },
                   '&:hover': {
