@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Chip, Select, MenuItem, FormControl } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/safe-work-logo-1.png';
 
 const Header: React.FC = () => {
   const { role, setRole } = useAuth();
@@ -21,6 +22,12 @@ const Header: React.FC = () => {
     >
       <Toolbar sx={{ minHeight: 60 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+          <Box
+            component="img"
+            src={logo}
+            alt="SafeWork logo"
+            sx={{ height: 30, mr: 1, display: { xs: 'none', sm: 'block' } }}
+          />
           <Typography
             variant="h6"
             component="div"
@@ -29,7 +36,7 @@ const Header: React.FC = () => {
               color: 'white',
             }}
           >
-            Safework
+            | Organization Name
           </Typography>
         </Box>
 
