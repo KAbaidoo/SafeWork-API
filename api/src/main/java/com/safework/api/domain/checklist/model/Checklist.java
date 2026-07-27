@@ -48,7 +48,7 @@ public class Checklist {
     private ChecklistStatus status;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb", nullable = false, name = "template_data")
+    @Column(nullable = false, name = "template_data")
     private Map<String, Object> templateData;
 
     @Version

@@ -51,7 +51,7 @@ public class Inspection {
     private InspectionStatus status;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb", nullable = false, name = "report_data")
+    @Column(nullable = false, name = "report_data")
     private Map<String, Object> reportData;
 
     @CreationTimestamp
