@@ -1,0 +1,25 @@
+id: tasks-corrective-actions
+title: Tasks & Corrective Actions
+summary: "Kanban workflow, task detail view, drag-and-drop, assignment and audit trail for corrective actions."
+owner: ops@company.local
+labels: [workflow, frontend]
+priority: high
+goal: "Provide supervisors with workflow tools to assign, track, and close corrective actions reported from the field."
+endpoints:
+  - GET: /v1/issues?status={status}
+  - PUT: /v1/issues/{id}
+  - GET: /v1/inspections/{id}
+acceptance_criteria:
+  - "Kanban board displays tasks in columns and supports drag-and-drop status updates"
+  - "Task detail view shows evidence and asset links"
+tasks:
+  - id: ta-task-001
+    title: Implement Kanban board with server-side updates on drag
+    type: frontend
+  - id: ta-task-002
+    title: Implement API to update task status, assignee and priority
+    type: backend
+artifacts:
+  - docs: docs/prds/Tasks_&_Corrective_Actions_PRD.md
+repo: SafeWork-Web-Dashboard
+branch_prefix: feat/tasks-corrective-actions

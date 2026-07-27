@@ -1,0 +1,23 @@
+id: asset-settings-prd
+title: Asset Settings PRD
+source: ../assets/Asset_Settings_PRD.md
+version: 1.0.0
+created_at: 2025-10-20
+authors:
+  - name: Unknown
+status: draft
+summary: |
+  Machine-readable manifest for the Asset Settings PRD. Replace placeholder content with PRD details.
+sections:
+  - id: overview
+    title: Overview
+    description: ''
+  - id: preferences
+    title: Preferences & Defaults
+    description: ''
+  - id: permissions
+    title: Permissions & Roles
+    description: ''
+  - id: integrations
+    title: Integrations
+    description: ''
