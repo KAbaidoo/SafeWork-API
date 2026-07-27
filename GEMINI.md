@@ -2,6 +2,12 @@
 
 This document provides a comprehensive guide for working with the SafeWork API codebase.
 
+## Monorepo Restructuring Notice
+The backend API is now located in the `api/` directory. When running Maven commands or configuring environment variables, please navigate into the `api/` folder:
+```bash
+cd api
+```
+
 ## Project Overview
 
 SafeWork is a mobile-first operations platform designed to help small and medium-sized businesses manage safety, compliance, and asset maintenance. The backend is a Spring Boot 3.5.4 application written in Java 17. It follows a domain-driven design, is multi-tenant, and uses JWT for authentication. The API is the single source of truth for both mobile and web clients, with a focus on reliable offline functionality through version-based synchronization.
@@ -31,24 +37,30 @@ export JWT_SECRET=33bb10979d8682ce60f944465eaeca3fa8ffcaf6e7c246a43a5f0f769c58bd
 
 ### Maven Commands
 
+All commands should be executed from the `api/` subdirectory:
+
 *   **Run the application (dev profile):**
     ```bash
+    cd api
     ./mvnw spring-boot:run
     ```
-    The application will be available at `http://localhost:8080/api`.
+    The application will be available at `http://localhost:8081/api`.
 
 *   **Build and run all tests:**
     ```bash
+    cd api
     ./mvnw clean test
     ```
 
 *   **Build a JAR file:**
     ```bash
+    cd api
     ./mvnw clean package
     ```
 
 *   **Run specific tests:**
     ```bash
+    cd api
     # Run a specific test class
     ./mvnw test -Dtest=AssetRepositoryTest
 
