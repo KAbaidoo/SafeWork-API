@@ -8,7 +8,7 @@
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install web/.husky",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{ts,tsx,js,jsx}'"
   },
