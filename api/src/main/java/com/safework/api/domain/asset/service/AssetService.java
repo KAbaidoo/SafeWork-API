@@ -87,6 +87,7 @@ public class AssetService {
         // You would also update assignedTo user here by fetching from the UserRepository
 
         Asset savedAsset = assetRepository.save(assetToUpdate);
+        assetRepository.flush();
         return assetMapper.toDto(savedAsset);
     }
 
