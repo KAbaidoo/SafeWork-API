@@ -57,6 +57,7 @@ public class RelationshipIntegrationTest {
         Location location = new Location();
         location.setName("Main Facility");
         location.setOrganization(org);
+        location.setLocationType(com.safework.api.domain.location.model.LocationType.WAREHOUSE);
         location.setAddress("123 Test St");
         location.setCity("Test City");
         location.setCountry("Test Country");
