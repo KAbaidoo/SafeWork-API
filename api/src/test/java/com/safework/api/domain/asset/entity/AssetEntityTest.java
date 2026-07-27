@@ -3,6 +3,7 @@ package com.safework.api.domain.asset.entity;
 import com.safework.api.domain.asset.model.*;
 import com.safework.api.domain.department.model.Department;
 import com.safework.api.domain.location.model.Location;
+import com.safework.api.domain.location.model.LocationType;
 import com.safework.api.domain.maintenance.model.FrequencyUnit;
 import com.safework.api.domain.maintenance.model.MaintenanceSchedule;
 import com.safework.api.domain.organization.model.Organization;
@@ -73,6 +74,7 @@ public class AssetEntityTest {
         location = new Location();
         location.setName("Warehouse A");
         location.setOrganization(organization);
+        location.setLocationType(LocationType.WAREHOUSE);
         location.setAddress("123 Main St");
         location.setCity("TestCity");
         location.setCountry("TestCountry");
